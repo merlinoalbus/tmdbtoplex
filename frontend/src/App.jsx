@@ -109,14 +109,48 @@ function translateGenre(genre) {
   return translations[genre] || genre;
 }
 
-function removeArticles(title) {
-  const articlesPattern = /^(il |lo |la |i |gli |le |un |uno |una |l'|the )/i;
-  return title.replace(articlesPattern, '').trim();
+const LEADING_ARTICLE_REGEX =
+  /^(?:l['’]|il|lo|la|i|gli|le|un|uno|una|the|a|an)(?:[\s\u00A0'’\-]+|$)/i;
+
+function removeArticles(rawTitle = '') {
+  if (typeof rawTitle !== 'string') return '';
+
+  const sanitized = (rawTitle.normalize ? rawTitle.normalize('NFC') : rawTitle)
+    .replace(/^[\s\u00A0\u00AD\u1680\u180E\u2000-\u200F\u2028-\u202F\u205F\u3000\uFEFF\u2060\u3164\u2800"'“”‘’«»]+/, '')
+    .trimStart();
+
+  if (!sanitized) return '';
+
+  const match = sanitized.match(LEADING_ARTICLE_REGEX);
+  if (match) {
+    const remainder = sanitized
+      .slice(match[0].length)
+      .replace(/^[\-\s\u00A0'’]+/, '')
+      .trim();
+    if (remainder) {
+      return remainder;
+    }
+  }
+
+  return sanitized;
 }
 
 function stripParens(str) {
   if (!str) return '';
   return str.replace(/\s*\([^)]*\)/g, '').trim();
+}
+
+const IGNORED_GENRE_TOKENS = new Set([
+  'torna all\'inizio',
+  'torna all’inizio',
+  'Torna all\'inizio',
+  'Torna all’inizio',
+]);
+
+function sanitizeGenres(list = []) {
+  return list
+    .map((g) => (typeof g === 'string' ? g.trim() : ''))
+    .filter((g) => g && !IGNORED_GENRE_TOKENS.has(g.toLowerCase()));
 }
 
 async function copyToClipboard(text, setCopyState, key) {
@@ -277,9 +311,13 @@ function ImdbScraper({ imdbId, onData }) {
     try {
       const data = await fetchImdbScraped(imdbId);
       if (cancelled) return;
-      setResult(data);
+      const sanitizedData = {
+        ...data,
+        chips: sanitizeGenres(data.chips || []),
+      };
+      setResult(sanitizedData);
       // onData NON entra più nelle dipendenze, ma viene comunque chiamato qui
-      onData && onData(data);
+      onData && onData(sanitizedData);
     } catch (err) {
       if (cancelled) return;
       console.error(err);
@@ -355,6 +393,7 @@ export default function App() {
 
   const [currentCollection, setCurrentCollection] = useState(null);
   const [collectionGenres, setCollectionGenres] = useState([]);
+  const [collectionGenresInput, setCollectionGenresInput] = useState('');
   const [copyState, setCopyState] = useState({});
 
   const [collectionDetailsView, setCollectionDetailsView] = useState(null);
@@ -369,6 +408,7 @@ export default function App() {
     setType(newType);
     setCurrentCollection(null);
     setCollectionGenres([]);
+    setCollectionGenresInput('');
     setResults([]);
     setResultsVisible(false);
     setCollectionDetailsView(null);
@@ -481,6 +521,7 @@ export default function App() {
 
       setCurrentCollection(dataIT);
       setCollectionGenres([]);
+      setCollectionGenresInput('');
       setCollectionDetailsView(buildCollectionView(dataIT, []));
     } catch (err) {
       console.error(err);
@@ -505,7 +546,7 @@ export default function App() {
         ? collection.overview.trim()
         : '';
     const riassunto = overview
-      ? `${overview}\n\nNumero di Film: ${numeroFilm}`
+      ? `${overview}\nNumero di Film: ${numeroFilm}`
       : `Numero di Film: ${numeroFilm}`;
 
     return {
@@ -527,36 +568,41 @@ export default function App() {
   }
 
   const handleCollectionGenresChange = (value) => {
-    const arr = value
-      .split(',')
-      .map((g) => g.trim())
-      .filter(Boolean);
+    setCollectionGenresInput(value);
+    const arr = sanitizeGenres(
+      value
+        .split(',')
+        .map((g) => g.trim())
+        .filter((g) => g.length > 0)
+    );
     setCollectionGenres(arr);
     if (currentCollection) {
       setCollectionDetailsView(buildCollectionView(currentCollection, arr));
     }
   };
 
-const appendGenresToCollection = (newGenres) => {
-  if (!currentCollection || !newGenres || newGenres.length === 0) return;
+  const appendGenresToCollection = (newGenres) => {
+    if (!currentCollection || !newGenres || newGenres.length === 0) return;
 
-  setCollectionGenres((prev) => {
-    const set = new Set(prev);
-    newGenres.forEach((g) => {
-      if (g) set.add(g);
+    const sanitizedNewGenres = sanitizeGenres(newGenres);
+    if (sanitizedNewGenres.length === 0) return;
+
+    setCollectionGenres((prev) => {
+      const set = new Set(prev);
+      sanitizedNewGenres.forEach((g) => {
+        if (g) set.add(g);
+      });
+      const arr = [...set];
+
+      if (arr.length === prev.length) {
+        return prev;
+      }
+
+      setCollectionDetailsView(buildCollectionView(currentCollection, arr));
+      setCollectionGenresInput(arr.join(', '));
+      return arr;
     });
-    const arr = [...set];
-
-    // Se i generi non sono realmente cambiati,
-    // non aggiorniamo lo stato -> niente re-render inutile
-    if (arr.length === prev.length) {
-      return prev;
-    }
-
-    setCollectionDetailsView(buildCollectionView(currentCollection, arr));
-    return arr;
-  });
-};
+  };
 
 
   // ====== DETTAGLI FILM ======
@@ -708,9 +754,12 @@ const appendGenresToCollection = (newGenres) => {
         sortedParts.findIndex((p) => p.id === movieIT.id) + 1;
       if (movieIndex <= 0) movieIndex = 1;
 
-      titoloOrdinamento = `${collectionName} ${movieIndex}`;
+      const orderingBase = `${collectionName} ${movieIndex}`.trim();
+      const cleanedOrdering = removeArticles(orderingBase);
+      titoloOrdinamento = cleanedOrdering || orderingBase;
     } else {
-      titoloOrdinamento = removeArticles(titolo);
+      const cleanedTitle = removeArticles(titolo);
+      titoloOrdinamento = cleanedTitle || titolo;
     }
 
     const titoloOriginale =
@@ -796,11 +845,12 @@ const appendGenresToCollection = (newGenres) => {
     if (isItalianFilm && !generiTmdb.includes('Italiano')) {
       generiTmdb.push('Italiano');
     }
+    generiTmdb = sanitizeGenres(generiTmdb);
 
     const generiAi = [];
-    const generiBase = [
+    const generiBase = sanitizeGenres([
       ...new Set([...generiTmdb, ...collectionGenres, ...generiAi]),
-    ];
+    ]);
 
     return {
       titolo,
@@ -828,21 +878,23 @@ const appendGenresToCollection = (newGenres) => {
   }
 
   const handleImdbData = (imdbData) => {
+    const imdbChips = sanitizeGenres(imdbData?.chips || []);
+
     // aggiorna generi condivisi della collezione con i chip IMDb
-    if (imdbData && imdbData.chips && imdbData.chips.length > 0) {
-      appendGenresToCollection(imdbData.chips);
+    if (imdbChips.length > 0) {
+      appendGenresToCollection(imdbChips);
     }
 
     setMovieDetailsView((prev) => {
       if (!prev) return prev;
 
-      const imdbTags = imdbData.chips || [];
+      const imdbTags = imdbChips;
       const imdbDirectors = imdbData.directors || [];
       const imdbWriters = imdbData.writers || [];
 
-      const mergedGenres = [
+      const mergedGenres = sanitizeGenres([
         ...new Set([...(prev.generiBase || []), ...imdbTags]),
-      ];
+      ]);
       const mergedDirectors = [
         ...new Set([
           ...prev.directors.map((d) => d.name || d),
@@ -874,12 +926,14 @@ const appendGenresToCollection = (newGenres) => {
     setAiLoading(true);
 
     try {
-      const aiGenres = await getAiGenres(
+      const aiGenresRaw = await getAiGenres(
         titolo,
         riassunto,
         generiTmdb || [],
         collectionGenres
       );
+
+      const aiGenres = sanitizeGenres(aiGenresRaw);
 
       if (!aiGenres || aiGenres.length === 0) {
         setAiError('Nessun genere AI generato.');
@@ -888,9 +942,9 @@ const appendGenresToCollection = (newGenres) => {
       // aggiorna dettagli film
       setMovieDetailsView((prev) => {
         if (!prev) return prev;
-        const mergedGenres = [
+        const mergedGenres = sanitizeGenres([
           ...new Set([...(prev.generiBase || []), ...aiGenres]),
-        ];
+        ]);
         return {
           ...prev,
           generiAi: aiGenres,
@@ -963,8 +1017,8 @@ const appendGenresToCollection = (newGenres) => {
         <div className="detail-section compact">
           <div className="detail-label">🔤 Titolo Ordinamento</div>
           <div className="detail-value">
-            <span className="detail-text">{titoloOrdinamento}</span>
-            {renderCopyButton('coll-titolo-ord', titoloOrdinamento)}
+            <span className="detail-text">{removeArticles(titoloOrdinamento)}</span>
+            {renderCopyButton('coll-titolo-ord', removeArticles(titoloOrdinamento))}
           </div>
         </div>
 
@@ -991,7 +1045,7 @@ const appendGenresToCollection = (newGenres) => {
             type="text"
             className="genre-input"
             placeholder="Es: Fantasy, Avventura, Famiglia"
-            value={genres.join(', ')}
+            value={collectionGenresInput}
             onChange={(e) => handleCollectionGenresChange(e.target.value)}
           />
           <div className="genre-help">
@@ -1101,8 +1155,8 @@ const appendGenresToCollection = (newGenres) => {
           <div className="detail-section compact">
             <div className="detail-label">🔤 Titolo Ordinamento</div>
             <div className="detail-value">
-              <span className="detail-text">{titoloOrdinamento}</span>
-              {renderCopyButton('film-titolo-ord', titoloOrdinamento)}
+              <span className="detail-text">{removeArticles(titoloOrdinamento)}</span>
+              {renderCopyButton('film-titolo-ord', removeArticles(titoloOrdinamento))}
             </div>
           </div>
         </div>
