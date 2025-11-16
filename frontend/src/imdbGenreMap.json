@@ -1,0 +1,1677 @@
+{
+  "Action": [
+    "Azione"
+  ],
+  "Character development": [
+    "Crescita"
+  ],
+
+  "Animation style": [
+    "Animazione"
+  ],
+  "Action Epic": [
+    "Azione",
+    "Eroico"
+  ],
+  "Adult Animation": [
+    "Animazione",
+    "Adulti"
+  ],
+  "Adventure": [
+    "Avventura"
+  ],
+  "Adventure Epic": [
+    "Avventura",
+    "Eroico"
+  ],
+  "Alien Invasion": [
+    "Invasione",
+    "Alieni"
+  ],
+  "Amico poliziotto": [
+    "Amicizia",
+    "Poliziesco"
+  ],
+  "Animal Adventure": [
+    "Avventura",
+    "Animali"
+  ],
+  "Animation": [
+    "Animazione"
+  ],
+  "Animazione": [
+    "Animazione"
+  ],
+  "Animazione al computer": [
+    "Animazione",
+    "Computer"
+  ],
+  "Animazione disegnata a mano": [
+    "Animazione"
+  ],
+  "Animazione in stop motion": [
+    "Animazione",
+    "Stop Motion"
+  ],
+  "Animazione per adulti": [
+    "Animazione",
+    "Adulti"
+  ],
+  "Animazione per le festività": [
+    "Animazione",
+    "Festività"
+  ],
+  "Anime": [
+    "Anime"
+  ],
+  "Arabic": [
+    "Arabo"
+  ],
+  "Arabo": [
+    "Arabo"
+  ],
+  "Arti marziali": [
+    "Arti Marziali"
+  ],
+  "Artificial Intelligence": [
+    "I.A."
+  ],
+  "Avventura": [
+    "Avventura"
+  ],
+  "Avventura con animali": [
+    "Avventura",
+    "Animali"
+  ],
+  "Avventura con dinosauri": [
+    "Avventura",
+    "Dinosauri"
+  ],
+  "Avventura epica": [
+    "Avventura",
+    "Eroico"
+  ],
+  "Avventura globetrotter": [
+    "Avventura",
+    "Giramondo"
+  ],
+  "Avventura in mare": [
+    "Avventura",
+    "Mare"
+  ],
+  "Avventura in montagna": [
+    "Avventura",
+    "Montagna"
+  ],
+  "Avventura nel deserto": [
+    "Avventura",
+    "Deserto"
+  ],
+  "Avventura nella giungla": [
+    "Avventura",
+    "Giungla"
+  ],
+  "Avventura per ragazzi": [
+    "Avventura",
+    "Ragazzi"
+  ],
+  "Avventura urbana": [
+    "Avventura",
+    "Urban"
+  ],
+  "Azione": [
+    "Azione"
+  ],
+  "Azione automobilistica": [
+    "Azione",
+    "Motori"
+  ],
+  "Azione epica": [
+    "Azione",
+    "Eroico"
+  ],
+  "B-Action": [
+    "Azione",
+    "Nicchia"
+  ],
+  "B-Horror": [
+    "Horror",
+    "Low Cost"
+  ],
+  "Baseball": [
+    "Baseball"
+  ],
+  "Basketball": [
+    "Pallacanestro"
+  ],
+  "Beauty Competition": [
+    "Concorso di Bellezza",
+    "Televisione"
+  ],
+  "Beauty Makeover": [
+    "Bellezza"
+  ],
+  "Bengalese": [
+    "Bengalese"
+  ],
+  "Bengali": [
+    "Bengalese"
+  ],
+  "Biografia": [
+    "Biografia"
+  ],
+  "Biography": [
+    "Biografia"
+  ],
+  "Body Horror": [
+    "Horror"
+  ],
+  "Body Swap Comedy": [
+    "Commedia",
+    "Fantasy",
+    "Scambio di Corpi"
+  ],
+  "Boxe": [
+    "Boxe"
+  ],
+  "Boxing": [
+    "Boxe"
+  ],
+  "Breve": [
+    "Corto"
+  ],
+  "Buddy Comedy": [
+    "Commedia",
+    "Amicizia",
+    "Duo"
+  ],
+  "Buddy Cop": [
+    "Amicizia",
+    "Poliziesco"
+  ],
+  "Family dynamics": [
+    "Famiglia"
+  ],
+  "Bumbling Detective": [
+    "Giallo",
+    "Detective",
+    "Maldestro"
+  ],
+  "Business Reality TV": [
+    "Televisione"
+  ],
+  "Calcio": [
+    "Calcio"
+  ],
+  "Cantonese": [
+    "Cantonese"
+  ],
+  "Caper": [
+    "Giallo",
+    "Colpo Grosso"
+  ],
+  "Car Action": [
+    "Azione",
+    "Motori"
+  ],
+  "Chi lo sa": [
+    "Chi lo sa?"
+  ],
+  "Classic Musical": [
+    "Musical"
+  ],
+  "Classical Western": [
+    "Western"
+  ],
+  "Comedy": [
+    "Commedia"
+  ],
+  "Coming-of-Age": [
+    "Adolescenti",
+    "Adulti"
+  ],
+  "Commedia": [
+    "Commedia"
+  ],
+  "Commedia Body Swap": [
+    "Commedia",
+    "Fantasy",
+    "Scambio di Corpi"
+  ],
+  "Commedia dark": [
+    "Commedia",
+    "Black Humor"
+  ],
+  "Commedia di alto livello": [
+    "Commedia",
+    "Ricerca Intellettuale"
+  ],
+  "Comedic brilliance": [
+    "Commedia",
+    "Ricerca Intellettuale"
+  ],
+  "Commedia natalizia": [
+    "Commedia",
+    "Natale"
+  ],
+  "Commedia per adolescenti": [
+    "Commedia",
+    "Adolescenti"
+  ],
+  "Commedia romantica": [
+    "Commedia Romantica",
+    "Commedia",
+    "Romanticismo"
+  ],
+  "Commedia stravagante": [
+    "Commedia"
+  ],
+  "Commedia volgare": [
+    "Commedia",
+    "Volgare"
+  ],
+  "Competizione di cucina": [
+    "Competizione",
+    "Cucina",
+    "Televisione"
+  ],
+  "Competizione di sopravvivenza": [
+    "Competizione",
+    "Sopravvivenza",
+    "Televisione"
+  ],
+  "Competizione per talenti": [
+    "Competizione",
+    "Talenti",
+    "Televisione"
+  ],
+  "Computer Animation": [
+    "Animazione",
+    "Computer"
+  ],
+  "Concert": [
+    "Concerto"
+  ],
+  "Concerto": [
+    "Concerto"
+  ],
+  "Concorso di bellezza": [
+    "Concorso di Bellezza",
+    "Televisione"
+  ],
+  "Conspiracy Thriller": [
+    "Thriller"
+  ],
+  "Contemporary Western": [
+    "Western",
+    "Contemporaneo"
+  ],
+  "Cooking & Food": [
+    "Cucina"
+  ],
+  "Cooking Competition": [
+    "Competizione",
+    "Cucina",
+    "Televisione"
+  ],
+  "Cop Drama": [
+    "Dramma",
+    "Poliziesco"
+  ],
+  "Coreano": [
+    "Coreano"
+  ],
+  "Costume Drama": [
+    "Dramma"
+  ],
+  "Cozy mystery": [
+    "Giallo",
+    "Poliziesco",
+    "Relax"
+  ],
+  "Cozy Mystery": [
+    "Giallo",
+    "Poliziesco",
+    "Relax"
+  ],
+  "Crime": [
+    "Crimine"
+  ],
+  "Crime Documentary": [
+    "Documentario"
+  ],
+  "Crime Reality TV": [
+    "Televisione",
+    "Crimine"
+  ],
+  "Crimine": [
+    "Crimine"
+  ],
+  "Crimini legati alla droga": [
+    "Crimine",
+    "Droghe"
+  ],
+  "Cucina e cibo": [
+    "Cucina"
+  ],
+  "Cyber Thriller": [
+    "Thriller",
+    "Fantascienza",
+    "Spionaggio"
+  ],
+  "Cyberpunk": [
+    "Cyberpunk"
+  ],
+  "Danese": [
+    "Danese"
+  ],
+  "Danish": [
+    "Danese"
+  ],
+  "Dark Comedy": [
+    "Commedia",
+    "Black Humor"
+  ],
+  "Dark fantasy": [
+    "Fantasy",
+    "Dark Fantasy"
+  ],
+  "Dark Fantasy": [
+    "Fantasy",
+    "Dark Fantasy"
+  ],
+  "Dark romance": [
+    "Dramma Romantico",
+    "Dramma",
+    "Romanticismo"
+  ],
+  "Dark Romance": [
+    "Dramma Romantico",
+    "Dramma",
+    "Romanticismo"
+  ],
+  "Dating Reality TV": [
+    "Incontri",
+    "Televisione"
+  ],
+  "Desert Adventure": [
+    "Avventura",
+    "Deserto"
+  ],
+  "Detective duro": [
+    "Giallo",
+    "Detective",
+    "Duro"
+  ],
+  "Detective maldestro": [
+    "Giallo",
+    "Detective",
+    "Maldestro"
+  ],
+  "Dinosaur Adventure": [
+    "Avventura",
+    "Dinosauri"
+  ],
+  "Disaster": [
+    "Disastro"
+  ],
+  "Disastro": [
+    "Disastro"
+  ],
+  "Docudrama": [
+    "Documentario",
+    "Dramma"
+  ],
+  "Documentario alimentare": [
+    "Documentario",
+    "Alimentazione"
+  ],
+  "Documentario di": [
+    "Documentario"
+  ],
+  "Documentario militare": [
+    "Documentario",
+    "Militare"
+  ],
+  "Documentario musicale": [
+    "Documentario",
+    "Musica",
+    "Musical"
+  ],
+  "Documentario naturale": [
+    "Documentario",
+    "Natura"
+  ],
+  "Documentario politico": [
+    "Documentario",
+    "Politica"
+  ],
+  "Documentario sportivo": [
+    "Documentario",
+    "Sport"
+  ],
+  "Documentario storico": [
+    "Documentario",
+    "Storico"
+  ],
+  "Documentario su fede e spiritualità": [
+    "Documentario",
+    "Fede",
+    "Spiritualità"
+  ],
+  "Documentario su scienza e tecnologia": [
+    "Documentario",
+    "Scienza",
+    "Tecnologia"
+  ],
+  "Documentario sul": [
+    "Documentario"
+  ],
+  "Documentary": [
+    "Documentario"
+  ],
+  "Docuseries": [
+    "Documentario"
+  ],
+  "Docusoap Reality TV": [
+    "Documentario",
+    "Televisione"
+  ],
+  "Drama": [
+    "Dramma"
+  ],
+  "Drama sul posto": [
+    "Dramma",
+    "Ufficio"
+  ],
+  "Dramma": [
+    "Dramma"
+  ],
+  "Dramma carcerario": [
+    "Dramma",
+    "Carcere"
+  ],
+  "Dramma coreano": [
+    "Dramma",
+    "Coreano"
+  ],
+  "Dramma del mondo dello spettacolo": [
+    "Dramma",
+    "Spettacolo"
+  ],
+  "Dramma finanziario": [
+    "Dramma",
+    "Finanziario"
+  ],
+  "Dramma in costume": [
+    "Dramma"
+  ],
+  "Dramma legale": [
+    "Dramma",
+    "Giustizia",
+    "Leggi"
+  ],
+  "Dramma medico": [
+    "Dramma",
+    "Medicina"
+  ],
+  "Dramma per adolescenti": [
+    "Dramma",
+    "Adolescenti"
+  ],
+  "Dramma politico": [
+    "Dramma",
+    "Politica"
+  ],
+  "Dramma poliziesco": [
+    "Dramma",
+    "Poliziesco"
+  ],
+  "Dramma psicologico": [
+    "Dramma",
+    "Psicologico"
+  ],
+  "Drammi storici": [
+    "Dramma",
+    "Storico"
+  ],
+  "Drug Crime": [
+    "Crimine",
+    "Droghe"
+  ],
+  "Dutch": [
+    "Olandese"
+  ],
+  "Dystopian Sci-Fi": [
+    "Fantascienza",
+    "Distopica"
+  ],
+  "Epic": [
+    "Eroico"
+  ],
+  "Epica di guerra": [
+    "Eroico",
+    "Guerra"
+  ],
+  "Epica occidentale": [
+    "Eroico",
+    "Occidentale"
+  ],
+  "Epica romantica": [
+    "Eroico",
+    "Romanticismo"
+  ],
+  "Epica storica": [
+    "Eroico",
+    "Storico"
+  ],
+  "Epico": [
+    "Eroico"
+  ],
+  "Erotic Thriller": [
+    "Thriller",
+    "Erotico"
+  ],
+  "Extreme Sport": [
+    "Sport",
+    "Estremo"
+  ],
+  "Fai da te": [
+    "Fai da te"
+  ],
+  "Fairy Tale": [
+    "Fiaba"
+  ],
+  "Faith & Spirituality Documentary": [
+    "Documentario",
+    "Fede",
+    "Spiritualità"
+  ],
+  "Famiglia": [
+    "Famiglia"
+  ],
+  "Family": [
+    "Famiglia"
+  ],
+  "Fantascienza": [
+    "Fantascienza"
+  ],
+  "Fantascienza distopica": [
+    "Fantascienza",
+    "Distopica"
+  ],
+  "Fantascienza epica": [
+    "Fantascienza",
+    "Eroico"
+  ],
+  "Fantasia": [
+    "Fantasy"
+  ],
+  "Fantasia epica": [
+    "Fantasy",
+    "Eroico"
+  ],
+  "Fantasy": [
+    "Fantasy"
+  ],
+  "Fantasy e soprannaturale": [
+    "Fantasy",
+    "Soprannaturale"
+  ],
+  "Fantasy Epic": [
+    "Fantasy",
+    "Eroico"
+  ],
+  "Fantasy per adolescenti": [
+    "Fantasy",
+    "Adolescenti"
+  ],
+  "Farce": [
+    "Parodia"
+  ],
+  "Farsa": [
+    "Parodia"
+  ],
+  "Feel-Good Romance": [
+    "Romanticismo",
+    "Commedia Romantica",
+    "Commedia"
+  ],
+  "Festività in famiglia": [
+    "Festività",
+    "Famiglia"
+  ],
+  "Fiaba": [
+    "Fiaba"
+  ],
+  "Filipino": [
+    "Filippino"
+  ],
+  "Filippino": [
+    "Filippino"
+  ],
+  "Film di colpo": [
+    "Giallo",
+    "Colpo Grosso"
+  ],
+  "Film noir": [
+    "Noir"
+  ],
+  "Film Noir": [
+    "Noir"
+  ],
+  "Film/serie d’azione di serie B": [
+    "Azione",
+    "Nicchia"
+  ],
+  "Financial Drama": [
+    "Dramma",
+    "Finanziario"
+  ],
+  "Finlandese": [
+    "Finlandese"
+  ],
+  "Finnish": [
+    "Finlandese"
+  ],
+  "Folk Horror": [
+    "Horror",
+    "Folklore"
+  ],
+  "Food Documentary": [
+    "Documentario",
+    "Alimentazione"
+  ],
+  "Football": [
+    "Calcio"
+  ],
+  "Found Footage Horror": [
+    "Horror",
+    "Amatoriale"
+  ],
+  "Francese": [
+    "Francese"
+  ],
+  "French": [
+    "Francese"
+  ],
+  "Game Show": [
+    "Videogame",
+    "Televisione"
+  ],
+  "Gangster": [
+    "Gangster"
+  ],
+  "German": [
+    "Tedesco"
+  ],
+  "Giallo": [
+    "Giallo"
+  ],
+  "Giapponese": [
+    "Giapponese"
+  ],
+  "Globetrotting Adventure": [
+    "Avventura",
+    "Giramondo"
+  ],
+  "Greco": [
+    "Greco"
+  ],
+  "Greek": [
+    "Greco"
+  ],
+  "Guerra": [
+    "Guerra"
+  ],
+  "Gun Fu": [
+    "Arti Marziali",
+    "Kung Fu"
+  ],
+  "Hand-Drawn Animation": [
+    "Animazione"
+  ],
+  "Hard-boiled Detective": [
+    "Giallo",
+    "Detective",
+    "Duro"
+  ],
+  "Heist": [
+    "Colpo Grosso"
+  ],
+  "Hidden Camera": [
+    "Telecamera Nascosta"
+  ],
+  "High-Concept Comedy": [
+    "Commedia",
+    "Ricerca Intellettuale"
+  ],
+  "Hindi": [
+    "Hindi"
+  ],
+  "Historical Epic": [
+    "Eroico",
+    "Storico"
+  ],
+  "History": [
+    "Storico"
+  ],
+  "History Documentary": [
+    "Documentario",
+    "Storico"
+  ],
+  "Holiday": [
+    "Vacanza"
+  ],
+  "Holiday Animation": [
+    "Animazione",
+    "Festività"
+  ],
+  "Holiday Comedy": [
+    "Commedia",
+    "Natale"
+  ],
+  "Holiday Family": [
+    "Festività",
+    "Famiglia"
+  ],
+  "Holiday Romance": [
+    "Romanticismo",
+    "Festività"
+  ],
+  "Home Improvement": [
+    "Fai da te"
+  ],
+  "Horror": [
+    "Horror"
+  ],
+  "Horror con licantropi": [
+    "Horror",
+    "Licantropi"
+  ],
+  "Horror found footage": [
+    "Horror",
+    "Amatoriale"
+  ],
+  "Horror mostruoso": [
+    "Horror",
+    "Mostruoso"
+  ],
+  "Horror psicologico": [
+    "Horror",
+    "Psicologico"
+  ],
+  "Horror soprannaturale": [
+    "Horror",
+    "Soprannaturale"
+  ],
+  "Horror stregonesco": [
+    "Horror",
+    "Magia"
+  ],
+  "Horror vampiresco": [
+    "Horror",
+    "Vampiri"
+  ],
+  "Horror zombie": [
+    "Horror",
+    "Zombie"
+  ],
+  "Incontri: Reality TV": [
+    "Incontri",
+    "Televisione"
+  ],
+  "Intelligenza artificiale": [
+    "I.A."
+  ],
+  "Invasione aliena": [
+    "Invasione",
+    "Alieni"
+  ],
+  "Isekai": [
+    "Anime",
+    "Fantasy",
+    "Reincarnazione",
+    "Viaggio",
+    "Mondo Sconosciuto",
+    "Universo Alternativo"
+  ],
+  "Italian": [
+    "Italiano"
+  ],
+  "Italiano": [
+    "Italiano"
+  ],
+  "Iyashikei": [
+    "Anime",
+    "Fantasy",
+    "Rilassante",
+    "Guarigione"
+  ],
+  "Japanese": [
+    "Giapponese"
+  ],
+  "Josei": [
+    "Anime",
+    "Adulti",
+    "Relazioni",
+    "Psicologico"
+  ],
+  "Jukebox Musical": [
+    "Musica"
+  ],
+  "Jukebox musicale": [
+    "Musica"
+  ],
+  "Jungle Adventure": [
+    "Avventura",
+    "Giungla"
+  ],
+  "Kaiju": [
+    "Mostruoso"
+  ],
+  "Kannada": [
+    "Kannada"
+  ],
+  "Korean": [
+    "Coreano"
+  ],
+  "Korean Drama": [
+    "Dramma",
+    "Coreano"
+  ],
+  "Kung Fu": [
+    "Arti Marziali",
+    "Kung Fu"
+  ],
+  "Legal Drama": [
+    "Dramma",
+    "Giustizia",
+    "Leggi"
+  ],
+  "Legal Thriller": [
+    "Thriller",
+    "Leggi",
+    "Giustizia"
+  ],
+  "Lifestyle": [
+    "Vita Quotidiana"
+  ],
+  "Malayalam": [
+    "Malayalam"
+  ],
+  "Mandarin": [
+    "Mandarino"
+  ],
+  "Mandarino": [
+    "Mandarino"
+  ],
+  "Marathi": [
+    "Marathi"
+  ],
+  "Martial Arts": [
+    "Arti Marziali"
+  ],
+  "Mecha": [
+    "Anime",
+    "Robot",
+    "Macchine",
+    "Fantascienza",
+    "Tecnologia"
+  ],
+  "Medical Drama": [
+    "Dramma",
+    "Medicina"
+  ],
+  "Military Documentary": [
+    "Documentario",
+    "Militare"
+  ],
+  "Missione": [
+    "Missione"
+  ],
+  "Mistero": [
+    "Mistero"
+  ],
+  "Mistero e suspense": [
+    "Mistero",
+    "Suspense"
+  ],
+  "Mockumentary": [
+    "Documentario",
+    "Commedia"
+  ],
+  "Monster Horror": [
+    "Horror",
+    "Mostruoso"
+  ],
+  "Motorsport": [
+    "Sport",
+    "Motori"
+  ],
+  "Mountain Adventure": [
+    "Avventura",
+    "Montagna"
+  ],
+  "Music": [
+    "Musica"
+  ],
+  "Music Documentary": [
+    "Documentario",
+    "Musica",
+    "Musical"
+  ],
+  "Musica": [
+    "Musica"
+  ],
+  "Musica pop": [
+    "Musica"
+  ],
+  "Musical": [
+    "Musical"
+  ],
+  "Musical classico": [
+    "Musical"
+  ],
+  "Musicale": [
+    "Musical"
+  ],
+  "Mystery": [
+    "Mistero"
+  ],
+  "Nature Documentary": [
+    "Documentario",
+    "Natura"
+  ],
+  "News": [
+    "Notizie"
+  ],
+  "Norvegese": [
+    "Norvegese"
+  ],
+  "Norwegian": [
+    "Norvegese"
+  ],
+  "Notizie": [
+    "Notizie"
+  ],
+  "Occidentale": [
+    "Occidentale"
+  ],
+  "Olandese": [
+    "Olandese"
+  ],
+  "One-Person Army Action": [
+    "Uno Contro Tutti"
+  ],
+  "Orrore": [
+    "Horror"
+  ],
+  "Orrore corporeo": [
+    "Horror"
+  ],
+  "Orrore per adolescenti": [
+    "Horror",
+    "Adolescenti"
+  ],
+  "Orrore popolare": [
+    "Horror",
+    "Folklore"
+  ],
+  "Pallacanestro": [
+    "Pallacanestro"
+  ],
+  "Paranormal Reality TV": [
+    "Televisione",
+    "Paranormale"
+  ],
+  "Parodia": [
+    "Commedia",
+    "Parodia"
+  ],
+  "Parody": [
+    "Commedia",
+    "Parodia"
+  ],
+  "Peplum": [
+    "Storico",
+    "Low Cost"
+  ],
+  "Period Drama": [
+    "Dramma",
+    "Storico"
+  ],
+  "Persian": [
+    "Persiano"
+  ],
+  "Persiano": [
+    "Persiano"
+  ],
+  "Police Procedural": [
+    "Poliziesco",
+    "Giustizia",
+    "Leggi"
+  ],
+  "Political Documentary": [
+    "Documentario",
+    "Politica"
+  ],
+  "Political Drama": [
+    "Dramma",
+    "Politica"
+  ],
+  "Political Thriller": [
+    "Thriller",
+    "Politica"
+  ],
+  "Pop Musical": [
+    "Musica"
+  ],
+  "Portoghese": [
+    "Portoghese"
+  ],
+  "Portuguese": [
+    "Portoghese"
+  ],
+  "Prison Drama": [
+    "Dramma",
+    "Carcere"
+  ],
+  "Procedurale di polizia": [
+    "Poliziesco",
+    "Giustizia",
+    "Leggi"
+  ],
+  "Programma a quiz": [
+    "Programma a Quiz",
+    "Televisione"
+  ],
+  "Psychological Drama": [
+    "Dramma",
+    "Psicologico"
+  ],
+  "Psychological Horror": [
+    "Horror",
+    "Psicologico"
+  ],
+  "Psychological Thriller": [
+    "Thriller",
+    "Psicologico"
+  ],
+  "Punjabi": [
+    "Punjabi"
+  ],
+  "Quest": [
+    "Missione"
+  ],
+  "Quirky Comedy": [
+    "Commedia"
+  ],
+  "Quiz Show": [
+    "Programma a Quiz",
+    "Televisione"
+  ],
+  "Raggiungimento della maggiore età": [
+    "Adolescenti",
+    "Adulti"
+  ],
+  "Rapina": [
+    "Colpo Grosso"
+  ],
+  "Raunchy Comedy": [
+    "Commedia",
+    "Volgare"
+  ],
+  "Reality sul paranormale": [
+    "Televisione",
+    "Paranormale"
+  ],
+  "Reality TV": [
+    "Televisione"
+  ],
+  "Reality TV aziendale": [
+    "Televisione"
+  ],
+  "Reality TV sul crimine": [
+    "Televisione",
+    "Crimine"
+  ],
+  "Road Trip": [
+    "Viaggio",
+    "Strada"
+  ],
+  "Rock Musical": [
+    "Musica"
+  ],
+  "Rock musicale": [
+    "Musica"
+  ],
+  "Romance": [
+    "Romanticismo"
+  ],
+  "Romantic Comedy": [
+    "Commedia Romantica",
+    "Commedia",
+    "Romanticismo"
+  ],
+  "Romantic Epic": [
+    "Eroico",
+    "Romanticismo"
+  ],
+  "Romanticismo": [
+    "Romanticismo"
+  ],
+  "Romanticismo a lieto fine": [
+    "Romanticismo",
+    "Commedia Romantica",
+    "Commedia"
+  ],
+  "Romanticismo adolescenziale": [
+    "Romanticismo",
+    "Commedia Romantica",
+    "Commedia",
+    "Adolescenti"
+  ],
+  "Romanticismo erotico": [
+    "Romanticismo",
+    "Erotico"
+  ],
+  "Romanticismo tragico": [
+    "Dramma Romantico",
+    "Dramma",
+    "Romanticismo"
+  ],
+  "Russian": [
+    "Russo"
+  ],
+  "Russo": [
+    "Russo"
+  ],
+  "Samurai": [
+    "Samurai"
+  ],
+  "Satira": [
+    "Commedia",
+    "Satira"
+  ],
+  "Satire": [
+    "Commedia",
+    "Satira"
+  ],
+  "Sci-Fi": [
+    "Fantascienza"
+  ],
+  "Sci-Fi Epic": [
+    "Fantascienza",
+    "Eroico"
+  ],
+  "Science & Technology Documentary": [
+    "Documentario",
+    "Scienza",
+    "Tecnologia"
+  ],
+  "Screwball Comedy": [
+    "Commedia",
+    "Sketch",
+    "Parodia",
+    "Satira",
+    "Gag"
+  ],
+  "Sea Adventure": [
+    "Avventura",
+    "Mare"
+  ],
+  "Seinen": [
+    "Anime",
+    "Adulti",
+    "Relazioni",
+    "Psicologico"
+  ],
+  "Serial Killer": [
+    "Serial Killer"
+  ],
+  "Serie di docu": [
+    "Documentario"
+  ],
+  "Shojo": [
+    "Anime",
+    "Adolescenti",
+    "Relazioni",
+    "Psicologico"
+  ],
+  "Shōjo": [
+    "Anime",
+    "Adolescenti",
+    "Relazioni",
+    "Psicologico"
+  ],
+  "Shonen": [
+    "Anime",
+    "Adolescenti",
+    "Relazioni",
+    "Psicologico"
+  ],
+  "Shōnen": [
+    "Anime",
+    "Adolescenti",
+    "Relazioni",
+    "Psicologico"
+  ],
+  "Short": [
+    "Corto"
+  ],
+  "Showbiz Drama": [
+    "Dramma",
+    "Spettacolo"
+  ],
+  "Sitcom": [
+    "Sitcom"
+  ],
+  "Sketch Comedy": [
+    "Commedia",
+    "Sketch",
+    "Satira",
+    "Gag"
+  ],
+  "Slapstick": [
+    "Commedia",
+    "Sketch",
+    "Parodia",
+    "Satira",
+    "Gag",
+    "Umorismo Fisico"
+  ],
+  "Slasher Horror": [
+    "Horror",
+    "Squartatore"
+  ],
+  "Slice of Life": [
+    "Vita Quotidiana"
+  ],
+  "Soap opera": [
+    "Soap Opera"
+  ],
+  "Soap Opera": [
+    "Soap Opera"
+  ],
+  "Soccer": [
+    "Calcio"
+  ],
+  "Sopravvivenza": [
+    "Sopravvivenza"
+  ],
+  "Spaccato di vita": [
+    "Vita Quotidiana"
+  ],
+  "Space Sci-Fi": [
+    "Spazio",
+    "Fantascienza"
+  ],
+  "Spaghetti Western": [
+    "Western"
+  ],
+  "Spagnolo": [
+    "Spagnolo"
+  ],
+  "Spanish": [
+    "Spagnolo"
+  ],
+  "Spazio e fantascienza": [
+    "Spazio",
+    "Fantascienza"
+  ],
+  "Spia": [
+    "Spia"
+  ],
+  "Splatter horror": [
+    "Horror",
+    "Splatter"
+  ],
+  "Splatter Horror": [
+    "Horror",
+    "Splatter"
+  ],
+  "Sport": [
+    "Sport"
+  ],
+  "Sport acquatici": [
+    "Sport"
+  ],
+  "Sport estremi": [
+    "Sport",
+    "Estremo"
+  ],
+  "Sport motoristici": [
+    "Sport",
+    "Motori"
+  ],
+  "Sports Documentary": [
+    "Documentario",
+    "Sport"
+  ],
+  "Spy": [
+    "Spia"
+  ],
+  "Stand-up": [
+    "Comico",
+    "Spettacolo",
+    "Gag",
+    "Satira",
+    "Parodia"
+  ],
+  "Stand-Up": [
+    "Comico",
+    "Spettacolo",
+    "Gag",
+    "Satira",
+    "Parodia"
+  ],
+  "Steampunk": [
+    "Fantascienza",
+    "Storico",
+    "Fantasy"
+  ],
+  "Steamy Romance": [
+    "Romanticismo",
+    "Erotico"
+  ],
+  "stile di vita": [
+    "Vita Quotidiana"
+  ],
+  "Stoner Comedy": [
+    "Commedia",
+    "Droghe"
+  ],
+  "Stop Motion Animation": [
+    "Animazione",
+    "Stop Motion"
+  ],
+  "Storia": [
+    "Storico"
+  ],
+  "Storia d'amore nelle festività": [
+    "Romanticismo",
+    "Festività"
+  ],
+  "Supereroe": [
+    "Supereroe"
+  ],
+  "Superhero": [
+    "Supereroe"
+  ],
+  "Supernatural Fantasy": [
+    "Fantasy",
+    "Soprannaturale"
+  ],
+  "Supernatural Horror": [
+    "Horror",
+    "Soprannaturale"
+  ],
+  "Survival": [
+    "Sopravvivenza"
+  ],
+  "Survival Competition": [
+    "Competizione",
+    "Sopravvivenza",
+    "Televisione"
+  ],
+  "Suspense Mystery": [
+    "Mistero",
+    "Suspense"
+  ],
+  "Svedese": [
+    "Svedese"
+  ],
+  "Swashbuckler": [
+    "Avventura",
+    "Spadaccino",
+    "Eroico",
+    "Storico"
+  ],
+  "Swedish": [
+    "Svedese"
+  ],
+  "Sword & Sandal": [
+    "Storico",
+    "Low Cost"
+  ],
+  "Sword & Sorcery": [
+    "Fantasy",
+    "Spadaccino",
+    "Magia",
+    "Eroico"
+  ],
+  "Sword and sorcery": [
+    "Fantasy",
+    "Spadaccino",
+    "Magia",
+    "Eroico"
+  ],
+  "Tailandese": [
+    "Tailandese"
+  ],
+  "Talent Competition": [
+    "Competizione",
+    "Talenti",
+    "Televisione"
+  ],
+  "Talk show": [
+    "Talk show",
+    "Televisione"
+  ],
+  "Talk Show": [
+    "Talk show",
+    "Televisione"
+  ],
+  "Tamil": [
+    "Tamil"
+  ],
+  "Tedesco": [
+    "Tedesco"
+  ],
+  "Teen Adventure": [
+    "Avventura",
+    "Ragazzi"
+  ],
+  "Teen Comedy": [
+    "Commedia",
+    "Adolescenti"
+  ],
+  "Teen Drama": [
+    "Dramma",
+    "Adolescenti"
+  ],
+  "Teen Fantasy": [
+    "Fantasy",
+    "Adolescenti"
+  ],
+  "Teen Horror": [
+    "Horror",
+    "Adolescenti"
+  ],
+  "Teen Romance": [
+    "Romanticismo",
+    "Commedia Romantica",
+    "Commedia",
+    "Adolescenti"
+  ],
+  "Physical comedy": [
+    "Commedia",
+    "Umorismo Fisico"
+  ],
+  "Thin story": [
+    "Corto"
+  ],
+  "Telecamera nascosta": [
+    "Telecamera Nascosta"
+  ],
+  "Telenovela": [
+    "Telenovela"
+  ],
+  "Underdeveloped": [
+    "Low Cost"
+  ],
+  "Uneven quality": [
+    "Low Cost"
+  ],
+  "Telugu": [
+    "Telugu"
+  ],
+  "Thai": [
+    "Tailandese"
+  ],
+  "Thriller": [
+    "Thriller"
+  ],
+  "Thriller cospirativo": [
+    "Thriller"
+  ],
+  "Thriller erotico": [
+    "Thriller",
+    "Erotico"
+  ],
+  "Thriller legale": [
+    "Thriller",
+    "Leggi",
+    "Giustizia"
+  ],
+  "Thriller politico": [
+    "Thriller",
+    "Politica"
+  ],
+  "Thriller psicologico": [
+    "Thriller",
+    "Psicologico"
+  ],
+  "Time Travel": [
+    "Viaggi nel Tempo"
+  ],
+  "Tragedia": [
+    "Tragedia"
+  ],
+  "Tragedy": [
+    "Tragedia"
+  ],
+  "Tragic Romance": [
+    "Dramma Romantico",
+    "Dramma",
+    "Romanticismo"
+  ],
+  "Travel": [
+    "Viaggi"
+  ],
+  "Travel Documentary": [
+    "Documentario"
+  ],
+  "Trucco e bellezza": [
+    "Bellezza"
+  ],
+  "True Crime": [
+    "True Crime"
+  ],
+  "Turco": [
+    "Turco"
+  ],
+  "Turkish": [
+    "Turco"
+  ],
+  "Un documentario": [
+    "Documentario"
+  ],
+  "Uno contro tutti": [
+    "Uno Contro Tutti"
+  ],
+  "Urban Adventure": [
+    "Avventura",
+    "Urban"
+  ],
+  "Musical score": [
+    "Musica"
+  ],
+  "Social commentary": [
+    "Sociale"
+  ],
+  "Fantastical elements": [
+    "Fantasy"
+  ],
+  "Inspirational": [
+    "Ispirazionale"
+  ],
+  "Enduring legacy": [
+    "Classico",
+    "Intramontabile"
+  ],
+  "Charming": [
+    "Incantevole"
+  ],
+  "Urdu": [
+    "Urdu"
+  ],
+  "Vacanza": [
+    "Vacanza"
+  ],
+  "Vampire Horror": [
+    "Horror",
+    "Vampiri"
+  ],
+  "Vero crimine": [
+    "True Crime"
+  ],
+  "Viaggi nel tempo": [
+    "Viaggi nel Tempo"
+  ],
+  "Viaggiare": [
+    "Viaggi"
+  ],
+  "Viaggio on the road": [
+    "Viaggio",
+    "Strada"
+  ],
+  "War": [
+    "Guerra"
+  ],
+  "War Epic": [
+    "Eroico",
+    "Guerra"
+  ],
+  "Water Sport": [
+    "Sport"
+  ],
+  "Werewolf Horror": [
+    "Horror",
+    "Licantropi"
+  ],
+  "Western": [
+    "Occidentale"
+  ],
+  "Western classico": [
+    "Western"
+  ],
+  "Western contemporaneo": [
+    "Western",
+    "Contemporaneo"
+  ],
+  "Western Epic": [
+    "Eroico",
+    "Occidentale"
+  ],
+  "Whodunnit": [
+    "Chi lo sa?"
+  ],
+  "Witch Horror": [
+    "Horror",
+    "Magia"
+  ],
+  "Workplace Drama": [
+    "Dramma",
+    "Ufficio"
+  ],
+  "Wuxia": [
+    "Eroico",
+    "Arti Marziali"
+  ],
+  "Zombie Horror": [
+    "Horror",
+    "Zombie"
+  ]
+}

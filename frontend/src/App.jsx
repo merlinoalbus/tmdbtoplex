@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import imdbGenreMap from './imdbGenreMap.json';
 
 // ====== CONFIG ======
 const TMDB_BEARER_TOKEN = import.meta.env.VITE_TMDB_BEARER_TOKEN || '';
@@ -109,6 +110,45 @@ function translateGenre(genre) {
   return translations[genre] || genre;
 }
 
+// Mappatura CHIPS IMDb -> generi interni caricata da JSON esterno
+// La chiave è il testo del chip IMDb, il valore è un array di generi interni.
+const IMDB_GENRE_MAP = imdbGenreMap;
+
+// normalizza una stringa per confronto (minuscolo, trim)
+function normalizeKey(str) {
+  if (!str) return '';
+  return str
+    .toString()
+    .trim()
+    .toLowerCase();
+}
+
+// chips IMDb -> array di generi interni (1:N)
+function mapImdbGenresToInternal(chips = []) {
+  const out = [];
+  const normalizedMap = {};
+
+  // costruiamo una mappa normalizzata per confronto case-insensitive
+  Object.entries(IMDB_GENRE_MAP || {}).forEach(([k, v]) => {
+    normalizedMap[normalizeKey(k)] = v || [];
+  });
+
+  for (const raw of chips) {
+    if (!raw || typeof raw !== 'string') continue;
+    const key = raw.trim();
+    const normKey = normalizeKey(key);
+    const mapped = normalizedMap[normKey];
+
+    if (mapped && mapped.length) {
+      out.push(...mapped);
+    } else {
+      // fallback: usa il chip come genere interno
+      out.push(key);
+    }
+  }
+  return sanitizeGenres(out);
+}
+
 const LEADING_ARTICLE_REGEX =
   /^(?:l['’]|il|lo|la|i|gli|le|un|uno|una|the|a|an)(?:[\s\u00A0'’\-]+|$)/i;
 
@@ -151,6 +191,10 @@ function sanitizeGenres(list = []) {
   return list
     .map((g) => (typeof g === 'string' ? g.trim() : ''))
     .filter((g) => g && !IGNORED_GENRE_TOKENS.has(g.toLowerCase()));
+}
+
+function sortGenresAlphabetically(genres = []) {
+  return [...genres].sort((a, b) => a.localeCompare(b, 'it', { sensitivity: 'base' }));
 }
 
 async function copyToClipboard(text, setCopyState, key) {
@@ -401,6 +445,9 @@ export default function App() {
 
   const [aiLoading, setAiLoading] = useState(false);
   const [aiError, setAiError] = useState('');
+  
+  const [collectionCycleIndex, setCollectionCycleIndex] = useState(0);
+  const [movieCycleIndex, setMovieCycleIndex] = useState(0);
 
   const hasTmdbConfig = !!TMDB_BEARER_TOKEN;
 
@@ -569,11 +616,17 @@ export default function App() {
 
   const handleCollectionGenresChange = (value) => {
     setCollectionGenresInput(value);
-    const arr = sanitizeGenres(
-      value
-        .split(',')
-        .map((g) => g.trim())
-        .filter((g) => g.length > 0)
+    const arr = sortGenresAlphabetically(
+      Array.from(
+        new Set(
+          sanitizeGenres(
+            value
+              .split(',')
+              .map((g) => g.trim())
+              .filter((g) => g.length > 0)
+          )
+        )
+      )
     );
     setCollectionGenres(arr);
     if (currentCollection) {
@@ -592,7 +645,7 @@ export default function App() {
       sanitizedNewGenres.forEach((g) => {
         if (g) set.add(g);
       });
-      const arr = [...set];
+      const arr = sortGenresAlphabetically([...set]);
 
       if (arr.length === prev.length) {
         return prev;
@@ -686,13 +739,16 @@ export default function App() {
         : {};
       const imdbId = externalIds.imdb_id || null;
 
+      // Salva snapshot collezione PRIMA di aggiungere i generi del film
+      const collectionGenresSnapshot = [...collectionGenres];
+
       const vm = await buildMovieViewModel({
         movieIT,
         movieEN,
         credits,
         releases,
         currentCollection,
-        collectionGenres,
+        collectionGenres: collectionGenresSnapshot,
         imdbId,
       });
 
@@ -704,6 +760,7 @@ export default function App() {
       setMovieDetailsView({
         ...vm,
         isInCollection,
+        collectionGenresSnapshot, // Salva lo snapshot nel view per il render
       });
     } catch (err) {
       console.error(err);
@@ -845,12 +902,23 @@ export default function App() {
     if (isItalianFilm && !generiTmdb.includes('Italiano')) {
       generiTmdb.push('Italiano');
     }
-    generiTmdb = sanitizeGenres(generiTmdb);
 
-    const generiAi = [];
-    const generiBase = sanitizeGenres([
-      ...new Set([...generiTmdb, ...collectionGenres, ...generiAi]),
+    const generiTmdbSanitized = sanitizeGenres(generiTmdb);
+    const collectionGenresSanitized = sanitizeGenres(collectionGenres);
+    const generiAiSanitized = sanitizeGenres([]); // popolati dopo dall'AI
+
+    // generi propri del film (senza quelli della collezione)
+    const movieSpecificGenres = sanitizeGenres([
+      ...new Set([
+        ...generiTmdbSanitized,
+        ...generiAiSanitized,
+      ]),
     ]);
+
+    // tutti i generi: collezione + film, univoci + ordine alfabetico
+    const allGenresSorted = sanitizeGenres([
+      ...new Set([...collectionGenresSanitized, ...movieSpecificGenres]),
+    ]).sort((a, b) => a.localeCompare(b, 'it'));
 
     return {
       titolo,
@@ -868,10 +936,17 @@ export default function App() {
       posterPath: movieIT.poster_path || movieEN.poster_path || null,
       movieIT,
       movieEN,
-      generiBase,
-      generiTmdb,
-      generiAi,
-      collectionGenres,
+
+      // generi originali separati
+      generiTmdb: generiTmdbSanitized,
+      generiAi: generiAiSanitized,
+      collectionGenres: collectionGenresSanitized,
+
+      // generi calcolati
+      movieSpecificGenres,
+      allGenresSorted,
+      generiBase: allGenresSorted,
+
       imdbData: null,
       imdbId,
     };
@@ -879,22 +954,32 @@ export default function App() {
 
   const handleImdbData = (imdbData) => {
     const imdbChips = sanitizeGenres(imdbData?.chips || []);
+    const imdbInternalGenres = mapImdbGenresToInternal(imdbChips);
 
-    // aggiorna generi condivisi della collezione con i chip IMDb
-    if (imdbChips.length > 0) {
-      appendGenresToCollection(imdbChips);
+    // aggiorna generi condivisi della collezione con i generi interni derivati da IMDb
+    if (imdbInternalGenres.length > 0) {
+      appendGenresToCollection(imdbInternalGenres);
     }
 
     setMovieDetailsView((prev) => {
       if (!prev) return prev;
 
-      const imdbTags = imdbChips;
       const imdbDirectors = imdbData.directors || [];
       const imdbWriters = imdbData.writers || [];
 
-      const mergedGenres = sanitizeGenres([
-        ...new Set([...(prev.generiBase || []), ...imdbTags]),
+      // generi derivati direttamente dal film (TMDB/IMDb/AI)
+      const updatedMovieSpecific = sanitizeGenres([
+        ...new Set([
+          ...(prev.movieSpecificGenres || []),
+          ...imdbInternalGenres,
+        ]),
       ]);
+
+      // tutti i generi: snapshot collezione + film, univoci + ordine alfabetico
+      const allGenresSorted = sanitizeGenres([
+        ...new Set([...(prev.collectionGenresSnapshot || []), ...updatedMovieSpecific]),
+      ]).sort((a, b) => a.localeCompare(b, 'it'));
+
       const mergedDirectors = [
         ...new Set([
           ...prev.directors.map((d) => d.name || d),
@@ -911,7 +996,9 @@ export default function App() {
       return {
         ...prev,
         imdbData,
-        generiBase: mergedGenres,
+        movieSpecificGenres: updatedMovieSpecific,
+        allGenresSorted,
+        generiBase: allGenresSorted,
         directorsMerged: mergedDirectors,
         writersMerged: mergedWriters,
       };
@@ -942,13 +1029,24 @@ export default function App() {
       // aggiorna dettagli film
       setMovieDetailsView((prev) => {
         if (!prev) return prev;
-        const mergedGenres = sanitizeGenres([
-          ...new Set([...(prev.generiBase || []), ...aiGenres]),
+
+        const updatedMovieSpecific = sanitizeGenres([
+          ...new Set([
+            ...(prev.movieSpecificGenres || []),
+            ...aiGenres,
+          ]),
         ]);
+
+        const allGenresSorted = sanitizeGenres([
+          ...new Set([...(prev.collectionGenresSnapshot || []), ...updatedMovieSpecific]),
+        ]).sort((a, b) => a.localeCompare(b, 'it'));
+
         return {
           ...prev,
           generiAi: aiGenres,
-          generiBase: mergedGenres,
+          movieSpecificGenres: updatedMovieSpecific,
+          allGenresSorted,
+          generiBase: allGenresSorted,
         };
       });
 
@@ -979,6 +1077,68 @@ export default function App() {
     );
   };
 
+  const handleCollectionCyclicCopy = () => {
+    if (!collectionDetailsView) return;
+    const { titolo, titoloOrdinamento, riassunto } = collectionDetailsView;
+    const items = [
+      { label: 'Titolo', value: titolo },
+      { label: 'Titolo Ordinamento', value: removeArticles(titoloOrdinamento) },
+      { label: 'Riassunto', value: riassunto },
+    ];
+    const current = items[collectionCycleIndex % items.length];
+    copyToClipboard(current.value, setCopyState, 'collection-cycle');
+    setCollectionCycleIndex((prev) => prev + 1);
+  };
+
+  const handleMovieCyclicCopy = () => {
+    if (!movieDetailsView) return;
+    const {
+      titolo,
+      titoloOrdinamento,
+      titoloOriginale,
+      dataUscita,
+      contentRating,
+      studio,
+      tagline,
+      riassunto,
+      directors,
+      writers,
+      producers,
+      paesi,
+      directorsMerged,
+      writersMerged,
+      allGenresSorted,
+    } = movieDetailsView;
+
+    const directorsArr = (directorsMerged && directorsMerged) || directors.map((d) => d.name);
+    const writersArr = (writersMerged && writersMerged) || writers.map((w) => w.name);
+    const directorsString = directorsArr.map(stripParens).join(', ');
+    const writersString = writersArr.map(stripParens).join(', ');
+    const producersString = producers.map((p) => stripParens(p.name)).filter(Boolean).join(', ');
+    const paesiString = paesi.join(', ');
+    const generiString = (allGenresSorted || []).join(', ');
+
+    const items = [
+      { label: 'Titolo', value: titolo },
+      { label: 'Titolo Ordinamento', value: removeArticles(titoloOrdinamento) },
+      { label: 'Titolo Originale', value: titoloOriginale },
+      { label: 'Data Uscita', value: dataUscita || '' },
+      { label: 'Classificazione', value: contentRating || '' },
+      { label: 'Studio', value: studio || '' },
+      { label: 'Tagline', value: tagline || '' },
+      { label: 'Riassunto', value: riassunto || '' },
+      { label: 'Registi', value: directorsString },
+      { label: 'Paesi', value: paesiString },
+      { label: 'Generi', value: generiString },
+      { label: 'Autori', value: writersString },
+      { label: 'Produttori', value: producersString },
+    ].filter((item) => item.value);
+
+    const current = items[movieCycleIndex % items.length];
+    copyToClipboard(current.value, setCopyState, 'movie-cycle');
+    setMovieCycleIndex((prev) => prev + 1);
+  };
+
   const renderCollectionDetails = () => {
     if (!collectionDetailsView) return null;
 
@@ -994,7 +1154,16 @@ export default function App() {
 
     return (
       <div className="collection-details">
-        <div className="section-title">📚 Dettagli Collezione</div>
+        <div className="section-title" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <span>📚 Dettagli Collezione</span>
+          <button
+            className="copy-button"
+            onClick={handleCollectionCyclicCopy}
+            title="Copia ciclico"
+          >
+            {copyState['collection-cycle'] === 'success' ? '✅' : '📋'}
+          </button>
+        </div>
 
         {posterPath && (
           <div className="poster-container">
@@ -1106,14 +1275,30 @@ export default function App() {
       paesi,
       posterPath,
       generiBase,
+      generiTmdb = [],
+      generiAi = [],
+      movieSpecificGenres = [],
+      allGenresSorted = [],
       imdbData,
       directorsMerged,
       writersMerged,
       imdbId,
+      collectionGenresSnapshot = [],
     } = movieDetailsView;
 
     const paesiString = paesi.join(', ');
-    const generiString = (generiBase || []).join(', ');
+    const genresToShow =
+      allGenresSorted && allGenresSorted.length > 0
+        ? allGenresSorted
+        : generiBase || [];
+    
+    // Generi del film = TMDB + IMDb remapped (movieSpecificGenres contiene già TMDB + IMDb)
+    // Usa lo snapshot della collezione PRIMA del caricamento del film corrente
+    const normalizeList = (list = []) =>
+      (list || []).map((g) => normalizeKey(g)).filter(Boolean);
+    const movieGenreSet = new Set(normalizeList(movieSpecificGenres || []));
+    const collectionGenreSet = new Set(normalizeList(collectionGenresSnapshot));
+    const generiString = genresToShow.join(', ');
 
     const directorsArr =
       (directorsMerged && directorsMerged) || directors.map((d) => d.name);
@@ -1131,7 +1316,16 @@ export default function App() {
 
     return (
       <div className="movie-details">
-        <div className="section-title">🎥 Dettagli Film</div>
+        <div className="section-title" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <span>🎥 Dettagli Film</span>
+          <button
+            className="copy-button"
+            onClick={handleMovieCyclicCopy}
+            title="Copia ciclico"
+          >
+            {copyState['movie-cycle'] === 'success' ? '✅' : '📋'}
+          </button>
+        </div>
 
         {posterPath && (
           <div className="poster-container">
@@ -1253,7 +1447,30 @@ export default function App() {
               🏷️ Generi (TMDB + Collezione + AI + IMDb chips)
             </div>
             <div className="detail-value">
-              <span className="detail-text">{generiString}</span>
+              <span className="detail-text">
+                {genresToShow.map((g, idx) => {
+                  const normalized = normalizeKey(g);
+                  const isMovieOnly =
+                    movieGenreSet.has(normalized) &&
+                    !collectionGenreSet.has(normalized);
+                  const isCollectionOnly =
+                    collectionGenreSet.has(normalized) &&
+                    !movieGenreSet.has(normalized);
+                  const label =
+                    g + (idx < genresToShow.length - 1 ? ', ' : '');
+                  if (isMovieOnly) {
+                    return (
+                      <strong key={g}>{label}</strong>
+                    );
+                  }
+                  if (isCollectionOnly) {
+                    return (
+                      <span key={g} className="collection-genre">{label}</span>
+                    );
+                  }
+                  return <span key={g}>{label}</span>;
+                })}
+              </span>
               {renderCopyButton('film-generi', generiString)}
             </div>
           </div>

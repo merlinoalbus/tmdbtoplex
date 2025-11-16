@@ -36,7 +36,7 @@ stop() {
         BE_PID=$(cat $BE_PID_FILE)
         if kill -0 "$BE_PID" 2>/dev/null; then
             echo "Arresto Backend (PID $BE_PID)..."
-            kill "$BE_PID"
+            kill -9"$BE_PID"
         else
             echo "Backend non in esecuzione."
         fi
