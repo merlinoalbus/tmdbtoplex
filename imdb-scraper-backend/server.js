@@ -7,24 +7,12 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 
 app.use(cors({
-  origin: '*',
+  origin: true, // Accetta qualsiasi origin (senza il conflitto con credentials)
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
+  credentials: false // Disabilitiamo credentials per evitare conflitti
 }));
 app.use(express.json());
-
-/**
- * OPTIONS /api/tmdb-proxy/*
- * Gestione preflight CORS
- */
-app.options('/api/tmdb-proxy/*', (req, res) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.header('Access-Control-Allow-Credentials', 'true');
-  res.sendStatus(200);
-});
 
 /**
  * GET /api/tmdb-proxy/*
