@@ -10,7 +10,7 @@ const TMDB_API_BASE = 'https://api.themoviedb.org/3';
 
 // backend scraper IMDb
 const IMDB_SCRAPER_BASE_URL =
-  import.meta.env.VITE_IMDB_SCRAPER_BASE_URL || 'http://localhost:4000';
+  import.meta.env.VITE_IMDB_SCRAPER_BASE_URL || 'http://tmdb2plex_be:4000';
 
 // ====== UTILITY GENERICA: fetch con timeout + retry ======
 async function delay(ms) {

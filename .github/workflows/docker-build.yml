@@ -85,4 +85,4 @@ jobs:
             VITE_TMDB_BEARER_TOKEN=${{ secrets.VITE_TMDB_BEARER_TOKEN }}
             VITE_GOOGLE_API_KEY=${{ secrets.VITE_GOOGLE_API_KEY }}
             VITE_OMDB_API_KEY=${{ secrets.VITE_OMDB_API_KEY }}
-            VITE_IMDB_SCRAPER_BASE_URL=${{ secrets.VITE_IMDB_SCRAPER_BASE_URL }}
+            VITE_IMDB_SCRAPER_BASE_URL=${{ env.VITE_IMDB_SCRAPER_BASE_URL }}
