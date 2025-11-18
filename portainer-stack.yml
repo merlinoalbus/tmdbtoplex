@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  tmdb2plex_be:
+    image: ghcr.io/merlinoalbus/tmdbtoplex-backend:latest
+    container_name: tmdb2plex_be
+    restart: unless-stopped
+    pull_policy: always
+    ports:
+      - "13501:4000"
+    environment:
+      - PORT=4000
+    networks:
+      - tmdb2plex_network
+
+  tmdb2plex_fe:
+    image: ghcr.io/merlinoalbus/tmdbtoplex-frontend:latest
+    container_name: tmdb2plex_fe
+    restart: unless-stopped
+    pull_policy: always
+    ports:
+      - "13500:80"
+    environment:
+      - BACKEND_URL=http://tmdb2plex_be:4000
+    depends_on:
+      - tmdb2plex_be
+    networks:
+      - tmdb2plex_network
+
+networks:
+  tmdb2plex_network:
+    driver: bridge

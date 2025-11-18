@@ -261,7 +261,7 @@
   "Commedia romantica": [
     "Commedia Romantica",
     "Commedia",
-    "Romanticismo"
+    "Romantico"
   ],
   "Commedia stravagante": [
     "Commedia"
@@ -383,12 +383,12 @@
   "Dark romance": [
     "Dramma Romantico",
     "Dramma",
-    "Romanticismo"
+    "Romantico"
   ],
   "Dark Romance": [
     "Dramma Romantico",
     "Dramma",
-    "Romanticismo"
+    "Romantico"
   ],
   "Dating Reality TV": [
     "Incontri",
@@ -559,7 +559,7 @@
   ],
   "Epica romantica": [
     "Eroico",
-    "Romanticismo"
+    "Romantico"
   ],
   "Epica storica": [
     "Eroico",
@@ -633,7 +633,7 @@
     "Parodia"
   ],
   "Feel-Good Romance": [
-    "Romanticismo",
+    "Romantico",
     "Commedia Romantica",
     "Commedia"
   ],
@@ -776,7 +776,7 @@
     "Famiglia"
   ],
   "Holiday Romance": [
-    "Romanticismo",
+    "Romantico",
     "Festività"
   ],
   "Home Improvement": [
@@ -1147,39 +1147,68 @@
     "Musica"
   ],
   "Romance": [
-    "Romanticismo"
+    "Romantico"
   ],
   "Romantic Comedy": [
     "Commedia Romantica",
     "Commedia",
-    "Romanticismo"
+    "Romantico"
   ],
   "Romantic Epic": [
     "Eroico",
-    "Romanticismo"
+    "Romantico"
   ],
   "Romanticismo": [
-    "Romanticismo"
+    "Romantico"
   ],
   "Romanticismo a lieto fine": [
-    "Romanticismo",
+    "Romantico",
     "Commedia Romantica",
     "Commedia"
   ],
+  "Emotional weight": [
+    "Dramma",
+    "Psicologico"
+  ],
+  "Generational appeal": [
+    "Adolescenti",
+    "Bambini",
+    "Adulti"
+  ],
+  "Authentic emotion": [
+    "Dramma",
+    "Psicologico"
+  ],
+  "Comforting": [
+    "Rilassante",
+    "Guarigione"
+  ],
+  "Heartfelt": [
+    "Romantico",
+    "Psicologico"
+  ],
+  "Friendship": [
+    "Amicizia",
+    "Duo",
+    "Viaggio"
+  ],
+  "Visual spectacle": [
+    "Animazione"
+    ], 
   "Romanticismo adolescenziale": [
-    "Romanticismo",
+    "Romantico",
     "Commedia Romantica",
     "Commedia",
     "Adolescenti"
   ],
   "Romanticismo erotico": [
-    "Romanticismo",
+    "Romantico",
     "Erotico"
   ],
   "Romanticismo tragico": [
     "Dramma Romantico",
     "Dramma",
-    "Romanticismo"
+    "Romantico"
   ],
   "Russian": [
     "Russo"
@@ -1372,7 +1401,7 @@
     "Fantasy"
   ],
   "Steamy Romance": [
-    "Romanticismo",
+    "Romantico",
     "Erotico"
   ],
   "stile di vita": [
@@ -1390,7 +1419,7 @@
     "Storico"
   ],
   "Storia d'amore nelle festività": [
-    "Romanticismo",
+    "Romantico",
     "Festività"
   ],
   "Supereroe": [
@@ -1490,7 +1519,7 @@
     "Adolescenti"
   ],
   "Teen Romance": [
-    "Romanticismo",
+    "Romantico",
     "Commedia Romantica",
     "Commedia",
     "Adolescenti"
@@ -1555,7 +1584,7 @@
   "Tragic Romance": [
     "Dramma Romantico",
     "Dramma",
-    "Romanticismo"
+    "Romantico"
   ],
   "Travel": [
     "Viaggi"

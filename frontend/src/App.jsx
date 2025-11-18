@@ -592,9 +592,7 @@ export default function App() {
       collection.overview && collection.overview.trim()
         ? collection.overview.trim()
         : '';
-    const riassunto = overview
-      ? `${overview}\nNumero di Film: ${numeroFilm}`
-      : `Numero di Film: ${numeroFilm}`;
+    const riassunto = overview || '';
 
     return {
       titolo,
@@ -651,6 +649,16 @@ export default function App() {
         return prev;
       }
 
+      setCollectionDetailsView(buildCollectionView(currentCollection, arr));
+      setCollectionGenresInput(arr.join(', '));
+      return arr;
+    });
+  };
+
+  const removeGenreFromCollection = (genreToRemove) => {
+    if (!currentCollection) return;
+    setCollectionGenres((prev) => {
+      const arr = prev.filter((g) => g !== genreToRemove);
       setCollectionDetailsView(buildCollectionView(currentCollection, arr));
       setCollectionGenresInput(arr.join(', '));
       return arr;
@@ -1063,31 +1071,82 @@ export default function App() {
   };
 
   // ====== RENDER HELPERS ======
-  const renderCopyButton = (key, text) => {
+  const renderCopyButton = (key, text, syncCyclicIndex) => {
     const state = copyState[key];
     const label =
       state === 'success' ? '✅' : state === 'error' ? '❌' : '📋';
     return (
       <button
         className={`copy-button ${state === 'success' ? 'copied' : ''}`}
-        onClick={() => copyToClipboard(text, setCopyState, key)}
+        onClick={() => {
+          copyToClipboard(text, setCopyState, key);
+          if (syncCyclicIndex) syncCyclicIndex();
+        }}
       >
         {label}
       </button>
     );
   };
 
+  const syncCollectionCycleIndex = (fieldKey) => {
+    if (!collectionDetailsView) return;
+    const fieldMap = {
+      'coll-titolo': 0,
+      'coll-titolo-ord': 1,
+      'coll-riassunto': 2,
+    };
+    if (fieldKey in fieldMap) {
+      setCollectionCycleIndex(fieldMap[fieldKey] + 1);
+    }
+  };
+
   const handleCollectionCyclicCopy = () => {
     if (!collectionDetailsView) return;
-    const { titolo, titoloOrdinamento, riassunto } = collectionDetailsView;
+    const { titolo, titoloOrdinamento, riassunto, numeroFilm, parts } = collectionDetailsView;
+    
+    let fullRiassunto = riassunto;
+    if (parts && parts.length > 0) {
+      fullRiassunto += '\nNumero di Film: ' + numeroFilm;
+      parts.forEach((movie) => {
+        const movieTitle = movie.title || 'Titolo non disponibile';
+        const releaseYear = movie.release_date
+          ? new Date(movie.release_date).getFullYear()
+          : '';
+        fullRiassunto += '\n✅ ' + movieTitle + (releaseYear ? ' (' + releaseYear + ')' : '');
+      });
+      fullRiassunto += '\n❌ Altro...';
+    }
+    
     const items = [
       { label: 'Titolo', value: titolo },
       { label: 'Titolo Ordinamento', value: removeArticles(titoloOrdinamento) },
-      { label: 'Riassunto', value: riassunto },
+      { label: 'Riassunto', value: fullRiassunto },
     ];
     const current = items[collectionCycleIndex % items.length];
     copyToClipboard(current.value, setCopyState, 'collection-cycle');
     setCollectionCycleIndex((prev) => prev + 1);
+  };
+
+  const syncMovieCycleIndex = (fieldKey) => {
+    if (!movieDetailsView) return;
+    const fieldMap = {
+      'film-titolo': 0,
+      'film-titolo-ord': 1,
+      'film-titolo-orig': 2,
+      'film-data-uscita': 3,
+      'film-rating': 4,
+      'film-studio': 5,
+      'film-tagline': 6,
+      'film-riassunto': 7,
+      'film-registi': 8,
+      'film-paesi': 9,
+      'film-generi': 10,
+      'film-autori': 11,
+      'film-produttori': 12,
+    };
+    if (fieldKey in fieldMap) {
+      setMovieCycleIndex(fieldMap[fieldKey] + 1);
+    }
   };
 
   const handleMovieCyclicCopy = () => {
@@ -1179,7 +1238,7 @@ export default function App() {
           <div className="detail-label">📖 Titolo</div>
           <div className="detail-value">
             <span className="detail-text">{titolo}</span>
-            {renderCopyButton('coll-titolo', titolo)}
+            {renderCopyButton('coll-titolo', titolo, () => syncCollectionCycleIndex('coll-titolo'))}
           </div>
         </div>
 
@@ -1187,7 +1246,7 @@ export default function App() {
           <div className="detail-label">🔤 Titolo Ordinamento</div>
           <div className="detail-value">
             <span className="detail-text">{removeArticles(titoloOrdinamento)}</span>
-            {renderCopyButton('coll-titolo-ord', removeArticles(titoloOrdinamento))}
+            {renderCopyButton('coll-titolo-ord', removeArticles(titoloOrdinamento), () => syncCollectionCycleIndex('coll-titolo-ord'))}
           </div>
         </div>
 
@@ -1201,8 +1260,42 @@ export default function App() {
                   <br />
                 </React.Fragment>
               ))}
+              {parts && parts.length > 0 && (
+                <>
+                  <br />
+                  Numero di Film: {numeroFilm}
+                  <br />
+                  {parts.map((movie) => {
+                    const movieTitle = movie.title || 'Titolo non disponibile';
+                    const releaseYear = movie.release_date
+                      ? new Date(movie.release_date).getFullYear()
+                      : '';
+                    return (
+                      <React.Fragment key={movie.id}>
+                        ✅ {movieTitle} {releaseYear ? `(${releaseYear})` : ''}<br />
+                      </React.Fragment>
+                    );
+                  })}
+                  <br />
+                  ❌ Altro...
+                </>
+              )}
             </span>
-            {renderCopyButton('coll-riassunto', riassunto)}
+            {renderCopyButton('coll-riassunto', (() => {
+              let fullText = riassunto;
+              if (parts && parts.length > 0) {
+                fullText += '\nNumero di Film: ' + numeroFilm ;
+                parts.forEach((movie) => {
+                  const movieTitle = movie.title || 'Titolo non disponibile';
+                  const releaseYear = movie.release_date
+                    ? new Date(movie.release_date).getFullYear()
+                    : '';
+                  fullText += '\n✅ ' + movieTitle + (releaseYear ? ' (' + releaseYear + ')' : '');
+                });
+                fullText += '\n❌ Altro...';
+              }
+              return fullText;
+            })(), () => syncCollectionCycleIndex('coll-riassunto'))}
           </div>
         </div>
 
@@ -1217,11 +1310,26 @@ export default function App() {
             value={collectionGenresInput}
             onChange={(e) => handleCollectionGenresChange(e.target.value)}
           />
+          {collectionGenres && collectionGenres.length > 0 && (
+            <div className="tags-container" style={{ marginTop: 10 }}>
+              {collectionGenres.map((genre) => (
+                <div className="tag" key={genre}>
+                  <span className="tag-text">{genre}</span>
+                  <button
+                    className="copy-button"
+                    onClick={() => removeGenreFromCollection(genre)}
+                    title="Rimuovi genere"
+                  >
+                    ❌
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
           <div className="genre-help">
             Inserisci i generi separati da virgola. Questi verranno aggiunti a
             tutti i film della collezione.
           </div>
-          <div className="genre-help">Numero di Film: {numeroFilm}</div>
         </div>
 
         {parts && parts.length > 0 && (
@@ -1342,7 +1450,7 @@ export default function App() {
             <div className="detail-label">🎬 Titolo</div>
             <div className="detail-value">
               <span className="detail-text">{titolo}</span>
-              {renderCopyButton('film-titolo', titolo)}
+              {renderCopyButton('film-titolo', titolo, () => syncMovieCycleIndex('film-titolo'))}
             </div>
           </div>
 
@@ -1350,7 +1458,7 @@ export default function App() {
             <div className="detail-label">🔤 Titolo Ordinamento</div>
             <div className="detail-value">
               <span className="detail-text">{removeArticles(titoloOrdinamento)}</span>
-              {renderCopyButton('film-titolo-ord', removeArticles(titoloOrdinamento))}
+              {renderCopyButton('film-titolo-ord', removeArticles(titoloOrdinamento), () => syncMovieCycleIndex('film-titolo-ord'))}
             </div>
           </div>
         </div>
@@ -1360,7 +1468,7 @@ export default function App() {
             <div className="detail-label">🌍 Titolo Originale</div>
             <div className="detail-value">
               <span className="detail-text">{titoloOriginale}</span>
-              {renderCopyButton('film-titolo-orig', titoloOriginale)}
+              {renderCopyButton('film-titolo-orig', titoloOriginale, () => syncMovieCycleIndex('film-titolo-orig'))}
             </div>
           </div>
 
@@ -1370,7 +1478,7 @@ export default function App() {
               <span className="detail-text">
                 {dataUscita || 'Non disponibile'}
               </span>
-              {renderCopyButton('film-data-uscita', dataUscita || '')}
+              {renderCopyButton('film-data-uscita', dataUscita || '', () => syncMovieCycleIndex('film-data-uscita'))}
             </div>
           </div>
         </div>
@@ -1384,7 +1492,7 @@ export default function App() {
                   {contentRating || 'N/D'}
                 </span>
               </span>
-              {renderCopyButton('film-rating', contentRating || '')}
+              {renderCopyButton('film-rating', contentRating || '', () => syncMovieCycleIndex('film-rating'))}
             </div>
           </div>
 
@@ -1393,7 +1501,7 @@ export default function App() {
               <div className="detail-label">🏢 Studio</div>
               <div className="detail-value">
                 <span className="detail-text">{studio}</span>
-                {renderCopyButton('film-studio', studio)}
+                {renderCopyButton('film-studio', studio, () => syncMovieCycleIndex('film-studio'))}
               </div>
             </div>
           )}
@@ -1404,7 +1512,7 @@ export default function App() {
             <div className="detail-label">💬 Tagline</div>
             <div className="detail-value">
               <span className="detail-text">{tagline}</span>
-              {renderCopyButton('film-tagline', tagline)}
+              {renderCopyButton('film-tagline', tagline, () => syncMovieCycleIndex('film-tagline'))}
             </div>
           </div>
         )}
@@ -1414,7 +1522,7 @@ export default function App() {
             <div className="detail-label">📝 Riassunto</div>
             <div className="detail-value">
               <span className="detail-text">{riassunto}</span>
-              {renderCopyButton('film-riassunto', riassunto)}
+              {renderCopyButton('film-riassunto', riassunto, () => syncMovieCycleIndex('film-riassunto'))}
             </div>
           </div>
         )}
@@ -1425,7 +1533,7 @@ export default function App() {
               <div className="detail-label">🎬 Registi (TMDB + IMDb)</div>
               <div className="detail-value">
                 <span className="detail-text">{directorsString}</span>
-                {renderCopyButton('film-registi', directorsString)}
+                {renderCopyButton('film-registi', directorsString, () => syncMovieCycleIndex('film-registi'))}
               </div>
             </div>
           )}
@@ -1435,7 +1543,7 @@ export default function App() {
               <div className="detail-label">🌍 Paese</div>
               <div className="detail-value">
                 <span className="detail-text">{paesiString}</span>
-                {renderCopyButton('film-paesi', paesiString)}
+                {renderCopyButton('film-paesi', paesiString, () => syncMovieCycleIndex('film-paesi'))}
               </div>
             </div>
           )}
@@ -1471,7 +1579,7 @@ export default function App() {
                   return <span key={g}>{label}</span>;
                 })}
               </span>
-              {renderCopyButton('film-generi', generiString)}
+              {renderCopyButton('film-generi', generiString, () => syncMovieCycleIndex('film-generi'))}
             </div>
           </div>
         )}
@@ -1482,7 +1590,7 @@ export default function App() {
               <div className="detail-label">✍️ Autori (TMDB + IMDb)</div>
               <div className="detail-value">
                 <span className="detail-text">{writersString}</span>
-                {renderCopyButton('film-autori', writersString)}
+                {renderCopyButton('film-autori', writersString, () => syncMovieCycleIndex('film-autori'))}
               </div>
             </div>
           )}
@@ -1492,7 +1600,7 @@ export default function App() {
               <div className="detail-label">💼 Produttori</div>
               <div className="detail-value">
                 <span className="detail-text">{producersString}</span>
-                {renderCopyButton('film-produttori', producersString)}
+                {renderCopyButton('film-produttori', producersString, () => syncMovieCycleIndex('film-produttori'))}
               </div>
             </div>
           )}
