@@ -10,6 +10,32 @@ app.use(cors());
 app.use(express.json());
 
 /**
+ * GET /api/tmdb-proxy/*
+ * Proxy per TMDB API per evitare CORS
+ */
+app.get('/api/tmdb-proxy/*', async (req, res) => {
+  const path = req.params[0];
+  const queryString = new URLSearchParams(req.query).toString();
+  const url = `https://api.themoviedb.org/3/${path}${queryString ? '?' + queryString : ''}`;
+  
+  try {
+    const response = await axios.get(url, {
+      headers: {
+        'Authorization': req.headers.authorization || '',
+        'Accept': 'application/json'
+      }
+    });
+    res.json(response.data);
+  } catch (err) {
+    console.error('Errore proxy TMDB:', err.message);
+    res.status(err.response?.status || 500).json({ 
+      error: 'Errore proxy TMDB', 
+      details: err.message 
+    });
+  }
+});
+
+/**
  * GET /api/imdb/:imdbId
  * Esempio: /api/imdb/tt0344854
  */

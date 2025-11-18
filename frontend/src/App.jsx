@@ -5,12 +5,11 @@ import imdbGenreMap from './imdbGenreMap.json';
 // ====== CONFIG ======
 const TMDB_BEARER_TOKEN = import.meta.env.VITE_TMDB_BEARER_TOKEN || '';
 const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY || '';
-const CORS_PROXY = 'https://corsproxy.io/?';
 const TMDB_API_BASE = 'https://api.themoviedb.org/3';
 
 // backend scraper IMDb
 const IMDB_SCRAPER_BASE_URL =
-  import.meta.env.VITE_IMDB_SCRAPER_BASE_URL || 'http://tmdb2plex_be:4000';
+  import.meta.env.VITE_IMDB_SCRAPER_BASE_URL || 'http://tmdb2plex_be.nasmerlinoalbus.cloud';
 
 // ====== UTILITY GENERICA: fetch con timeout + retry ======
 async function delay(ms) {
@@ -495,7 +494,7 @@ export default function App() {
       )}&include_adult=true&language=it-IT&page=1`;
 
       const res = await fetch(
-        CORS_PROXY + encodeURIComponent(url),
+        `${IMDB_SCRAPER_BASE_URL}/api/tmdb-proxy/search/collection?query=${encodeURIComponent(queryStr)}&include_adult=true&language=it-IT&page=1`,
         {
           headers: {
             Authorization: `Bearer ${TMDB_BEARER_TOKEN}`,
@@ -534,9 +533,8 @@ export default function App() {
     setMovieDetailsView(null);
 
     try {
-      const urlIT = `${TMDB_API_BASE}/collection/${id}?language=it-IT`;
       const resIT = await fetch(
-        CORS_PROXY + encodeURIComponent(urlIT),
+        `${IMDB_SCRAPER_BASE_URL}/api/tmdb-proxy/collection/${id}?language=it-IT`,
         {
           headers: {
             Authorization: `Bearer ${TMDB_BEARER_TOKEN}`,
@@ -548,9 +546,8 @@ export default function App() {
       const dataIT = await resIT.json();
 
       if (!dataIT.overview || !dataIT.overview.trim()) {
-        const urlEN = `${TMDB_API_BASE}/collection/${id}?language=en-US`;
         const resEN = await fetch(
-          CORS_PROXY + encodeURIComponent(urlEN),
+          `${IMDB_SCRAPER_BASE_URL}/api/tmdb-proxy/collection/${id}?language=en-US`,
           {
             headers: {
               Authorization: `Bearer ${TMDB_BEARER_TOKEN}`,
@@ -676,9 +673,8 @@ export default function App() {
     setAiError('');
 
     try {
-      const movieUrlIT = `${TMDB_API_BASE}/movie/${id}?language=it-IT`;
       const movieResponseIT = await fetch(
-        CORS_PROXY + encodeURIComponent(movieUrlIT),
+        `${IMDB_SCRAPER_BASE_URL}/api/tmdb-proxy/movie/${id}?language=it-IT`,
         {
           headers: {
             Authorization: `Bearer ${TMDB_BEARER_TOKEN}`,
@@ -690,9 +686,8 @@ export default function App() {
         throw new Error('Errore nel recupero dei dettagli IT');
       const movieIT = await movieResponseIT.json();
 
-      const movieUrlEN = `${TMDB_API_BASE}/movie/${id}?language=en-US`;
       const movieResponseEN = await fetch(
-        CORS_PROXY + encodeURIComponent(movieUrlEN),
+        `${IMDB_SCRAPER_BASE_URL}/api/tmdb-proxy/movie/${id}?language=en-US`,
         {
           headers: {
             Authorization: `Bearer ${TMDB_BEARER_TOKEN}`,
@@ -704,9 +699,8 @@ export default function App() {
         throw new Error('Errore nel recupero dei dettagli EN');
       const movieEN = await movieResponseEN.json();
 
-      const creditsUrl = `${TMDB_API_BASE}/movie/${id}/credits?language=it-IT`;
       const creditsResponse = await fetch(
-        CORS_PROXY + encodeURIComponent(creditsUrl),
+        `${IMDB_SCRAPER_BASE_URL}/api/tmdb-proxy/movie/${id}/credits?language=it-IT`,
         {
           headers: {
             Authorization: `Bearer ${TMDB_BEARER_TOKEN}`,
@@ -718,9 +712,8 @@ export default function App() {
         ? await creditsResponse.json()
         : { cast: [], crew: [] };
 
-      const releasesUrl = `${TMDB_API_BASE}/movie/${id}/release_dates`;
       const releasesResponse = await fetch(
-        CORS_PROXY + encodeURIComponent(releasesUrl),
+        `${IMDB_SCRAPER_BASE_URL}/api/tmdb-proxy/movie/${id}/release_dates`,
         {
           headers: {
             Authorization: `Bearer ${TMDB_BEARER_TOKEN}`,
@@ -732,9 +725,8 @@ export default function App() {
         ? await releasesResponse.json()
         : { results: [] };
 
-      const externalIdsUrl = `${TMDB_API_BASE}/movie/${id}/external_ids`;
       const externalIdsResponse = await fetch(
-        CORS_PROXY + encodeURIComponent(externalIdsUrl),
+        `${IMDB_SCRAPER_BASE_URL}/api/tmdb-proxy/movie/${id}/external_ids`,
         {
           headers: {
             Authorization: `Bearer ${TMDB_BEARER_TOKEN}`,

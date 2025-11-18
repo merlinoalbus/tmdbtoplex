@@ -86,3 +86,4 @@ jobs:
             VITE_GOOGLE_API_KEY=${{ secrets.VITE_GOOGLE_API_KEY }}
             VITE_OMDB_API_KEY=${{ secrets.VITE_OMDB_API_KEY }}
             VITE_IMDB_SCRAPER_BASE_URL=${{ env.VITE_IMDB_SCRAPER_BASE_URL }}
+
