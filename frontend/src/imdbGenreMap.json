@@ -760,6 +760,26 @@
     "Documentario",
     "Storico"
   ],
+  "Dramatic tension": [
+    "Dramma"
+  ],
+  "Emotional stakes": [
+    "Dramma",
+    "Emotivo" 
+  ],
+  "Nostalgic": [
+    "Nostalgico"
+  ],
+  "Romantic": [
+    "Romantico"
+  ],
+  "Satisfying ending": [
+    "Lieto Fine"
+  ],
+  "Worldbuilding": [
+    "Fantascienza",
+    "Fantasy"
+  ],
   "Holiday": [
     "Vacanza"
   ],
@@ -1168,7 +1188,8 @@
   ],
   "Emotional weight": [
     "Dramma",
-    "Psicologico"
+    "Psicologico",
+    "Emotivo"
   ],
   "Generational appeal": [
     "Adolescenti",
@@ -1181,7 +1202,8 @@
   ],
   "Authentic emotion": [
     "Dramma",
-    "Psicologico"
+    "Psicologico",
+    "Emotivo"
   ],
   "Action sequences": [
     "Azione"
