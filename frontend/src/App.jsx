@@ -489,12 +489,9 @@ export default function App() {
 
     try {
       const endpoint = type === 'collection' ? 'search/collection' : 'search/movie';
-      const url = `${TMDB_API_BASE}/${endpoint}?query=${encodeURIComponent(
-        query
-      )}&include_adult=true&language=it-IT&page=1`;
 
       const res = await fetch(
-        `${IMDB_SCRAPER_BASE_URL}/api/tmdb-proxy/search/collection?query=${encodeURIComponent(queryStr)}&include_adult=true&language=it-IT&page=1`,
+        `${IMDB_SCRAPER_BASE_URL}/api/tmdb-proxy/${endpoint}?query=${encodeURIComponent(query)}&include_adult=true&language=it-IT&page=1`,
         {
           headers: {
             Authorization: `Bearer ${TMDB_BEARER_TOKEN}`,

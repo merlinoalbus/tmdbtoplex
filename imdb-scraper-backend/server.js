@@ -13,8 +13,8 @@ app.use(express.json());
  * GET /api/tmdb-proxy/*
  * Proxy per TMDB API per evitare CORS
  */
-app.get('/api/tmdb-proxy/*', async (req, res) => {
-  const path = req.params[0];
+app.use('/api/tmdb-proxy', async (req, res) => {
+  const path = req.path.replace('/', '');
   const queryString = new URLSearchParams(req.query).toString();
   const url = `https://api.themoviedb.org/3/${path}${queryString ? '?' + queryString : ''}`;
   
