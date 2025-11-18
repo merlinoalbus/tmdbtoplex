@@ -12,6 +12,8 @@ services:
       - PORT=4000
     networks:
       - tmdb2plex_network
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
   tmdb2plex_fe:
     image: ghcr.io/merlinoalbus/tmdbtoplex-frontend:latest
@@ -24,6 +26,22 @@ services:
       - BACKEND_URL=http://tmdb2plex_be:4000
     depends_on:
       - tmdb2plex_be
+    networks:
+      - tmdb2plex_network
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
+  watchtower:
+    image: containrrr/watchtower:latest
+    container_name: tmdb2plex_watchtower
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_POLL_INTERVAL=300
+      - WATCHTOWER_LABEL_ENABLE=true
+      - WATCHTOWER_INCLUDE_RESTARTING=true
     networks:
       - tmdb2plex_network
 

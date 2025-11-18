@@ -38,39 +38,12 @@ Per far sì che Portainer aggiorni automaticamente i container ad ogni push:
 6. Seleziona "Just the push event"
 7. Salva
 
-**Opzione B - Watchtower (alternativa):**
-Aggiungi Watchtower come servizio in `portainer-stack.yml` per monitorare automaticamente gli aggiornamenti.
-
-```yaml
-version: '3.8'
-
-services:
-  tmdb2plex_be:
-    image: ghcr.io/merlinoalbus/tmdbtoplex-backend:latest
-    container_name: tmdb2plex_be
-    restart: unless-stopped
-    ports:
-      - "4000:4000"
-    environment:
-      - PORT=4000
-    networks:
-      - tmdb2plex_network
-
-  tmdb2plex_fe:
-    image: ghcr.io/merlinoalbus/tmdbtoplex-frontend:latest
-    container_name: tmdb2plex_fe
-    restart: unless-stopped
-    ports:
-      - "3000:80"
-    depends_on:
-      - tmdb2plex_be
-    networks:
-      - tmdb2plex_network
-
-networks:
-  tmdb2plex_network:
-    driver: bridge
-```
+**Opzione B - Watchtower (INCLUSO in portainer-stack.yml):**
+Watchtower è già configurato in `portainer-stack.yml` e monitora automaticamente gli aggiornamenti ogni 5 minuti:
+- Controlla nuove versioni delle immagini su GHCR
+- Scarica automaticamente gli aggiornamenti
+- Riavvia i container con le nuove immagini
+- Rimuove le vecchie immagini (`WATCHTOWER_CLEANUP=true`)
 
 ### 5. Accesso ai servizi
 
