@@ -15,6 +15,18 @@ app.use(cors({
 app.use(express.json());
 
 /**
+ * OPTIONS /api/tmdb-proxy/*
+ * Gestione preflight CORS
+ */
+app.options('/api/tmdb-proxy/*', (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.sendStatus(200);
+});
+
+/**
  * GET /api/tmdb-proxy/*
  * Proxy per TMDB API per evitare CORS
  */
