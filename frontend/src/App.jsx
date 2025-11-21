@@ -817,11 +817,30 @@ export default function App() {
       const sortedParts =
         currentCollection.parts
           ?.slice()
-          .sort(
-            (a, b) =>
-              new Date(a.release_date || '1900-01-01') -
-              new Date(b.release_date || '1900-01-01')
-          ) || [];
+          .sort((a, b) => {
+            const dateA = a.release_date || null;
+            const dateB = b.release_date || null;
+            
+            // Se entrambi hanno data, ordina per data
+            if (dateA && dateB) {
+              return new Date(dateA) - new Date(dateB);
+            }
+            
+            // Se solo A non ha data, metti A dopo B
+            if (!dateA && dateB) {
+              return 1;
+            }
+            
+            // Se solo B non ha data, metti B dopo A
+            if (dateA && !dateB) {
+              return -1;
+            }
+            
+            // Se entrambi non hanno data, ordina alfabeticamente per titolo
+            const titleA = (a.title || '').toLowerCase();
+            const titleB = (b.title || '').toLowerCase();
+            return titleA.localeCompare(titleB, 'it');
+          }) || [];
 
       let movieIndex =
         sortedParts.findIndex((p) => p.id === movieIT.id) + 1;
