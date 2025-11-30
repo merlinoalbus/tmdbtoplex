@@ -154,6 +154,12 @@ const LEADING_ARTICLE_REGEX =
 function removeArticles(rawTitle = '') {
   if (typeof rawTitle !== 'string') return '';
 
+  // Gestisce "L'" con apostrofo attaccato (L'era -> era)
+  const apostropheTest = rawTitle.match(/^l[\u0027\u2019](\w+)/i);
+  if (apostropheTest) {
+    return apostropheTest[1];
+  }
+
   const sanitized = (rawTitle.normalize ? rawTitle.normalize('NFC') : rawTitle)
     .replace(/^[\s\u00A0\u00AD\u1680\u180E\u2000-\u200F\u2028-\u202F\u205F\u3000\uFEFF\u2060\u3164\u2800"'“”‘’«»]+/, '')
     .trimStart();

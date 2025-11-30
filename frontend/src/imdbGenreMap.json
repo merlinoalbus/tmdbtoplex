@@ -15,6 +15,11 @@
   "Animation style": [
     "Animazione"
   ],
+  "Psychological depth": [
+    "Psicologico",
+    "Emotivo",
+    "Dramma"
+  ],
   "Identity": [
     "Identità",
     "Crescita",
@@ -23,6 +28,14 @@
     "Relazioni",
     "Adolescenti",
     "Adulti"
+  ],
+  "Educational": [
+    "Educativo",
+    "Documentario"
+  ],
+  "Mental health": [
+    "Psicologico",
+    "Emotivo"
   ],
   "Personal growth": [
     "Crescita",
