@@ -907,10 +907,12 @@ export default function App() {
     // Usa la data principale del film da TMDB (release_date è la data ufficiale)
     let dataUscita = movieIT.release_date || movieEN.release_date || '';
     
-    // Se non c'è, cerca nelle release dates specifiche per paese
+    // Cerca la release italiana (serve anche per la classificazione)
+    const italianRelease = releases.results.find((r) => r.iso_3166_1 === 'IT');
+    
+    // Se non c'è data principale, cerca nelle release dates specifiche per paese
     if (!dataUscita && releases.results && releases.results.length > 0) {
       // Prova prima con la release italiana
-      const italianRelease = releases.results.find((r) => r.iso_3166_1 === 'IT');
       if (italianRelease && italianRelease.release_dates && italianRelease.release_dates.length > 0) {
         const theatricalRelease =
           italianRelease.release_dates.find((r) => r.type === 3) ||
