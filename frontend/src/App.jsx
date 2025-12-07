@@ -968,7 +968,18 @@ export default function App() {
         movieEN.production_companies[0]?.name) ||
       '';
 
-    const tagline = movieIT.tagline || movieEN.tagline || '';
+    // Traduci la tagline se non è vuota
+    const originalTagline = movieIT.tagline || movieEN.tagline || '';
+    let tagline = originalTagline;
+    if (tagline) {
+      try {
+        const translatedTagline = await translateToItalian(tagline);
+        tagline = translatedTagline || originalTagline; // Fallback al testo originale
+      } catch (error) {
+        console.error('Errore traduzione tagline film:', error);
+        tagline = originalTagline; // Mantiene il testo originale in caso di errore
+      }
+    }
     
     // Traduci il riassunto se non è in italiano
     const originalRiassunto = movieIT.overview || movieEN.overview || '';
