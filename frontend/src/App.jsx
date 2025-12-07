@@ -74,6 +74,34 @@ async function fetchWithTimeoutAndRetry(
   throw lastError;
 }
 
+// ====== TRADUZIONE TESTO ======
+async function translateToItalian(text) {
+  if (!text || !text.trim()) return text;
+  
+  try {
+    // Usa l'API pubblica di Google Translate (non ufficiale ma funzionante)
+    const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=it&dt=t&q=${encodeURIComponent(text)}`;
+    
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error('Errore nella chiamata API traduzione');
+    }
+    
+    const data = await response.json();
+    
+    // Il risultato è in data[0][x][0] per ogni segmento tradotto
+    if (data && data[0]) {
+      const translated = data[0].map(item => item[0]).join('');
+      return translated;
+    }
+    
+    return text;
+  } catch (error) {
+    console.error('Errore nella traduzione:', error);
+    return text; // Ritorna il testo originale in caso di errore
+  }
+}
+
 // ====== FUNZIONI DI SUPPORTO ======
 function translateGenre(genre) {
   const translations = {
@@ -569,7 +597,8 @@ export default function App() {
       setCurrentCollection(dataIT);
       setCollectionGenres([]);
       setCollectionGenresInput('');
-      setCollectionDetailsView(buildCollectionView(dataIT, []));
+      const collectionView = await buildCollectionView(dataIT, []);
+      setCollectionDetailsView(collectionView);
     } catch (err) {
       console.error(err);
       setError(
@@ -581,7 +610,7 @@ export default function App() {
     }
   };
 
-  function buildCollectionView(collection, genres) {
+  async function buildCollectionView(collection, genres) {
     const numeroFilm = collection.parts ? collection.parts.length : 0;
     let titolo = collection.name
       ? collection.name.replace(/Collection|Collezione/gi, 'Raccolta')
@@ -592,7 +621,19 @@ export default function App() {
       collection.overview && collection.overview.trim()
         ? collection.overview.trim()
         : '';
-    const riassunto = overview || '';
+    
+    // Traduci il riassunto se non è vuoto
+    const originalRiassunto = overview || '';
+    let riassunto = originalRiassunto;
+    if (riassunto) {
+      try {
+        const translated = await translateToItalian(riassunto);
+        riassunto = translated || originalRiassunto; // Fallback al testo originale
+      } catch (error) {
+        console.error('Errore traduzione riassunto collezione:', error);
+        riassunto = originalRiassunto; // Mantiene il testo originale in caso di errore
+      }
+    }
 
     return {
       titolo,
@@ -647,7 +688,7 @@ export default function App() {
     );
     setCollectionGenres(arr);
     if (currentCollection) {
-      setCollectionDetailsView(buildCollectionView(currentCollection, arr));
+      buildCollectionView(currentCollection, arr).then(setCollectionDetailsView);
     }
   };
 
@@ -668,7 +709,7 @@ export default function App() {
         return prev;
       }
 
-      setCollectionDetailsView(buildCollectionView(currentCollection, arr));
+      buildCollectionView(currentCollection, arr).then(setCollectionDetailsView);
       setCollectionGenresInput(arr.join(', '));
       return arr;
     });
@@ -678,7 +719,7 @@ export default function App() {
     if (!currentCollection) return;
     setCollectionGenres((prev) => {
       const arr = prev.filter((g) => g !== genreToRemove);
-      setCollectionDetailsView(buildCollectionView(currentCollection, arr));
+      buildCollectionView(currentCollection, arr).then(setCollectionDetailsView);
       setCollectionGenresInput(arr.join(', '));
       return arr;
     });
@@ -863,20 +904,33 @@ export default function App() {
     const titoloOriginale =
       movieIT.original_title || movieEN.original_title || '';
 
+    // Usa la data principale del film da TMDB (release_date è la data ufficiale)
     let dataUscita = movieIT.release_date || movieEN.release_date || '';
-    const italianRelease = releases.results.find(
-      (r) => r.iso_3166_1 === 'IT'
-    );
-    if (
-      italianRelease &&
-      italianRelease.release_dates &&
-      italianRelease.release_dates.length > 0
-    ) {
-      const theatricalRelease =
-        italianRelease.release_dates.find((r) => r.type === 3) ||
-        italianRelease.release_dates[0];
-      if (theatricalRelease?.release_date) {
-        dataUscita = theatricalRelease.release_date.split('T')[0];
+    
+    // Se non c'è, cerca nelle release dates specifiche per paese
+    if (!dataUscita && releases.results && releases.results.length > 0) {
+      // Prova prima con la release italiana
+      const italianRelease = releases.results.find((r) => r.iso_3166_1 === 'IT');
+      if (italianRelease && italianRelease.release_dates && italianRelease.release_dates.length > 0) {
+        const theatricalRelease =
+          italianRelease.release_dates.find((r) => r.type === 3) ||
+          italianRelease.release_dates[0];
+        if (theatricalRelease?.release_date) {
+          dataUscita = theatricalRelease.release_date.split('T')[0];
+        }
+      }
+      
+      // Se ancora non c'è, cerca in qualsiasi paese con theatrical release
+      if (!dataUscita) {
+        for (const countryRelease of releases.results) {
+          if (countryRelease.release_dates && countryRelease.release_dates.length > 0) {
+            const theatrical = countryRelease.release_dates.find((r) => r.type === 3);
+            if (theatrical?.release_date) {
+              dataUscita = theatrical.release_date.split('T')[0];
+              break;
+            }
+          }
+        }
       }
     }
 
@@ -913,7 +967,19 @@ export default function App() {
       '';
 
     const tagline = movieIT.tagline || movieEN.tagline || '';
-    const riassunto = movieIT.overview || movieEN.overview || '';
+    
+    // Traduci il riassunto se non è in italiano
+    const originalRiassunto = movieIT.overview || movieEN.overview || '';
+    let riassunto = originalRiassunto;
+    if (riassunto) {
+      try {
+        const translated = await translateToItalian(riassunto);
+        riassunto = translated || originalRiassunto; // Fallback al testo originale
+      } catch (error) {
+        console.error('Errore traduzione riassunto film:', error);
+        riassunto = originalRiassunto; // Mantiene il testo originale in caso di errore
+      }
+    }
 
     const directors = credits.crew.filter((c) => c.job === 'Director');
     const writers = credits.crew.filter((c) => c.department === 'Writing');
