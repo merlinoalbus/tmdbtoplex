@@ -1059,6 +1059,7 @@ export default function App() {
 
       // generi originali separati
       generiTmdb: generiTmdbSanitized,
+      generiImdb: [], // Inizializzato vuoto, popolato dopo da handleImdbData
       generiAi: generiAiSanitized,
       collectionGenres: collectionGenresSanitized,
 
@@ -1094,6 +1095,9 @@ export default function App() {
           ...imdbInternalGenres,
         ]),
       ]);
+      
+      // Salva generi IMDb separatamente per la colorazione
+      const generiImdbSanitized = sanitizeGenres(imdbInternalGenres);
 
       // tutti i generi: snapshot collezione + film, univoci + ordine alfabetico
       const allGenresSorted = sanitizeGenres([
@@ -1116,6 +1120,7 @@ export default function App() {
       return {
         ...prev,
         imdbData,
+        generiImdb: generiImdbSanitized,
         movieSpecificGenres: updatedMovieSpecific,
         allGenresSorted,
         generiBase: allGenresSorted,
@@ -1496,6 +1501,7 @@ export default function App() {
       posterPath,
       generiBase,
       generiTmdb = [],
+      generiImdb = [],
       generiAi = [],
       movieSpecificGenres = [],
       allGenresSorted = [],
@@ -1518,6 +1524,8 @@ export default function App() {
       (list || []).map((g) => normalizeKey(g)).filter(Boolean);
     const movieGenreSet = new Set(normalizeList(movieSpecificGenres || []));
     const collectionGenreSet = new Set(normalizeList(collectionGenresSnapshot));
+    const tmdbGenreSet = new Set(normalizeList(generiTmdb || []));
+    const imdbGenreSet = new Set(normalizeList(generiImdb || []));
     const generiString = genresToShow.join(', ');
 
     const directorsArr =
@@ -1676,8 +1684,22 @@ export default function App() {
                   const isCollectionOnly =
                     collectionGenreSet.has(normalized) &&
                     !movieGenreSet.has(normalized);
+                  const isFromTmdb = tmdbGenreSet.has(normalized);
+                  const isFromImdb = imdbGenreSet.has(normalized);
                   const label =
                     g + (idx < genresToShow.length - 1 ? ', ' : '');
+                  
+                  // Priorità: TMDB > IMDb
+                  if (isFromTmdb) {
+                    return (
+                      <span key={g} style={{ color: '#2196F3', fontWeight: 'bold' }}>{label}</span>
+                    );
+                  }
+                  if (isFromImdb) {
+                    return (
+                      <span key={g} style={{ color: '#FF9800' }}>{label}</span>
+                    );
+                  }
                   if (isMovieOnly) {
                     return (
                       <strong key={g}>{label}</strong>
