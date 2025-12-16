@@ -15,6 +15,28 @@
   "Animation style": [
     "Animazione"
   ],
+  "Ambitious" : [
+    "Eroico"
+  ],
+  "Atmospheric": [
+    "Ambientazione"
+  ],
+  "Confusing": [
+    "Mistero"
+  ],
+  "Narrative complexity": [
+    "Mistero",
+    "Suspense"
+  ],
+  "Performance": [
+    "Recitazione"
+  ],
+  "Direction": [
+    "Regia"
+  ],
+  "Sound design": [
+    "Musica"
+  ],        
   "Psychological depth": [
     "Psicologico",
     "Emotivo",
