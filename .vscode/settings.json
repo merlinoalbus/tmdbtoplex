@@ -1,0 +1,13 @@
+{
+  // Auto-stage dei file modificati
+  "git.enableSmartCommit": true,
+  "git.postCommitCommand": "push",
+
+  // Se usi l'estensione Git Auto Commit
+  "git.autoCommit.enabled": true,
+  "git.autoCommit.commitMessage": "Auto-commit: ${date}",
+
+  // Auto-save dei file
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000
+}
