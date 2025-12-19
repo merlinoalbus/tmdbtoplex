@@ -24,9 +24,32 @@
   "Confusing": [
     "Mistero"
   ],
+  "Fight choreography"  : [
+    "Arti Marziali",
+    "Kung Fu",
+    "Azione",
+    "Combattimento"
+  ],
   "Narrative complexity": [
     "Mistero",
     "Suspense"
+  ],
+  "Historical accuracy": [
+    "Storico"
+  ],
+    "Pacing": [
+    "Ritmo",
+    "Suspense",
+    "Azione"
+  ],
+    "Suspenseful": [
+    "Suspense",
+    "Mistero"
+  ],
+  "Thrilling": [
+    "Suspense",
+    "Azione",
+    "Mistero"
   ],
   "Performance": [
     "Recitazione"
