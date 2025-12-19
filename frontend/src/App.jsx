@@ -103,42 +103,8 @@ async function translateToItalian(text) {
 }
 
 // ====== FUNZIONI DI SUPPORTO ======
-function translateGenre(genre) {
-  const translations = {
-    'Action & Adventure': 'Azione,Avventura',
-    Kids: 'Bambini',
-    News: 'News',
-    Reality: 'Reality',
-    'Sci-Fi & Fantasy': 'Fantascienza,Fantasy',
-    Soap: 'Soap',
-    Talk: 'Talk Show',
-    'War & Politics': 'Guerra,Politica',
-    Action: 'Azione',
-    Adventure: 'Avventura',
-    Animation: 'Animazione',
-    Comedy: 'Commedia',
-    Crime: 'Poliziesco',
-    Documentary: 'Documentario',
-    Drama: 'Dramma',
-    Family: 'Famiglia',
-    Fantasy: 'Fantasy',
-    History: 'Storico',
-    Horror: 'Horror',
-    Music: 'Musicale',
-    Mystery: 'Mistero',
-    Romance: 'Romantico',
-    'Science Fiction': 'Fantascienza',
-    'TV Movie': 'Televisione',
-    Thriller: 'Thriller',
-    War: 'Guerra',
-    Western: 'Western',
-  };
-
-  return translations[genre] || genre;
-}
-
-// Mappatura CHIPS IMDb -> generi interni caricata da JSON esterno
-// La chiave è il testo del chip IMDb, il valore è un array di generi interni.
+// Mappatura universale generi -> generi interni caricata da JSON esterno
+// La chiave è il testo del genere (da qualsiasi fonte), il valore è un array di generi interni.
 const IMDB_GENRE_MAP = imdbGenreMap;
 
 // normalizza una stringa per confronto (minuscolo, trim)
@@ -150,28 +116,35 @@ function normalizeKey(str) {
     .toLowerCase();
 }
 
-// chips IMDb -> array di generi interni (1:N)
-function mapImdbGenresToInternal(chips = []) {
-  const out = [];
-  const normalizedMap = {};
+// Mappa UN genere attraverso l'imdbGenreMap (ritorna array)
+// Se il genere mappa a [] (array vuoto), viene ignorato e non compare nella lista finale
+function mapGenreToInternal(genreName) {
+  if (!genreName || typeof genreName !== "string") return [];
 
-  // costruiamo una mappa normalizzata per confronto case-insensitive
+  const normalizedMap = {};
   Object.entries(IMDB_GENRE_MAP || {}).forEach(([k, v]) => {
     normalizedMap[normalizeKey(k)] = v || [];
   });
 
-  for (const raw of chips) {
-    if (!raw || typeof raw !== 'string') continue;
-    const key = raw.trim();
-    const normKey = normalizeKey(key);
-    const mapped = normalizedMap[normKey];
+  const key = genreName.trim();
+  const normKey = normalizeKey(key);
+  const mapped = normalizedMap[normKey];
 
-    if (mapped && mapped.length) {
-      out.push(...mapped);
-    } else {
-      // fallback: usa il chip come genere interno
-      out.push(key);
-    }
+  // Se il genere è nella mappa, usa il mapping (anche se è array vuoto per ignorare)
+  if (mapped !== undefined) {
+    return mapped;
+  } else {
+    // fallback: usa il genere originale se non mappato
+    return [key];
+  }
+}
+
+// Mappa un array di generi attraverso l'imdbGenreMap (1:N)
+function mapGenresToInternal(genres = []) {
+  const out = [];
+  for (const genre of genres) {
+    if (!genre) continue;
+    out.push(...mapGenreToInternal(genre));
   }
   return sanitizeGenres(out);
 }
@@ -845,52 +818,49 @@ export default function App() {
     collectionGenres,
     imdbId,
   }) {
-    let titolo = movieIT.title || movieEN.title || 'Titolo non disponibile';
-    let titoloOrdinamento = '';
+    let titolo = movieIT.title || movieEN.title || "Titolo non disponibile";
+    let titoloOrdinamento = "";
 
     if (currentCollection && currentCollection.parts) {
       let collectionName = currentCollection.name
-        .replace(/Collection/gi, '')
-        .replace(/Collezione/gi, '')
-        .replace(/Raccolta/gi, '')
+        .replace(/Collection/gi, "")
+        .replace(/Collezione/gi, "")
+        .replace(/Raccolta/gi, "")
         .trim();
-      collectionName = collectionName.replace(/[\s-]+$/, '').trim();
-      const firstWord = collectionName.split(' ')[0];
+      collectionName = collectionName.replace(/[\s-]+$/, "").trim();
+      const firstWord = collectionName.split(" ")[0];
 
       if (!titolo.startsWith(firstWord)) {
         titolo = `${collectionName} - ${titolo}`;
       }
 
       const sortedParts =
-        currentCollection.parts
-          ?.slice()
-          .sort((a, b) => {
-            const dateA = a.release_date || null;
-            const dateB = b.release_date || null;
-            
-            // Se entrambi hanno data, ordina per data
-            if (dateA && dateB) {
-              return new Date(dateA) - new Date(dateB);
-            }
-            
-            // Se solo A non ha data, metti A dopo B
-            if (!dateA && dateB) {
-              return 1;
-            }
-            
-            // Se solo B non ha data, metti B dopo A
-            if (dateA && !dateB) {
-              return -1;
-            }
-            
-            // Se entrambi non hanno data, ordina alfabeticamente per titolo
-            const titleA = (a.title || '').toLowerCase();
-            const titleB = (b.title || '').toLowerCase();
-            return titleA.localeCompare(titleB, 'it');
-          }) || [];
+        currentCollection.parts?.slice().sort((a, b) => {
+          const dateA = a.release_date || null;
+          const dateB = b.release_date || null;
 
-      let movieIndex =
-        sortedParts.findIndex((p) => p.id === movieIT.id) + 1;
+          // Se entrambi hanno data, ordina per data
+          if (dateA && dateB) {
+            return new Date(dateA) - new Date(dateB);
+          }
+
+          // Se solo A non ha data, metti A dopo B
+          if (!dateA && dateB) {
+            return 1;
+          }
+
+          // Se solo B non ha data, metti B dopo A
+          if (dateA && !dateB) {
+            return -1;
+          }
+
+          // Se entrambi non hanno data, ordina alfabeticamente per titolo
+          const titleA = (a.title || "").toLowerCase();
+          const titleB = (b.title || "").toLowerCase();
+          return titleA.localeCompare(titleB, "it");
+        }) || [];
+
+      let movieIndex = sortedParts.findIndex((p) => p.id === movieIT.id) + 1;
       if (movieIndex <= 0) movieIndex = 1;
 
       const orderingBase = `${collectionName} ${movieIndex}`.trim();
@@ -902,33 +872,42 @@ export default function App() {
     }
 
     const titoloOriginale =
-      movieIT.original_title || movieEN.original_title || '';
+      movieIT.original_title || movieEN.original_title || "";
 
     // Usa la data principale del film da TMDB (release_date è la data ufficiale)
-    let dataUscita = movieIT.release_date || movieEN.release_date || '';
-    
+    let dataUscita = movieIT.release_date || movieEN.release_date || "";
+
     // Cerca la release italiana (serve anche per la classificazione)
-    const italianRelease = releases.results.find((r) => r.iso_3166_1 === 'IT');
-    
+    const italianRelease = releases.results.find((r) => r.iso_3166_1 === "IT");
+
     // Se non c'è data principale, cerca nelle release dates specifiche per paese
     if (!dataUscita && releases.results && releases.results.length > 0) {
       // Prova prima con la release italiana
-      if (italianRelease && italianRelease.release_dates && italianRelease.release_dates.length > 0) {
+      if (
+        italianRelease &&
+        italianRelease.release_dates &&
+        italianRelease.release_dates.length > 0
+      ) {
         const theatricalRelease =
           italianRelease.release_dates.find((r) => r.type === 3) ||
           italianRelease.release_dates[0];
         if (theatricalRelease?.release_date) {
-          dataUscita = theatricalRelease.release_date.split('T')[0];
+          dataUscita = theatricalRelease.release_date.split("T")[0];
         }
       }
-      
+
       // Se ancora non c'è, cerca in qualsiasi paese con theatrical release
       if (!dataUscita) {
         for (const countryRelease of releases.results) {
-          if (countryRelease.release_dates && countryRelease.release_dates.length > 0) {
-            const theatrical = countryRelease.release_dates.find((r) => r.type === 3);
+          if (
+            countryRelease.release_dates &&
+            countryRelease.release_dates.length > 0
+          ) {
+            const theatrical = countryRelease.release_dates.find(
+              (r) => r.type === 3
+            );
             if (theatrical?.release_date) {
-              dataUscita = theatrical.release_date.split('T')[0];
+              dataUscita = theatrical.release_date.split("T")[0];
               break;
             }
           }
@@ -936,7 +915,7 @@ export default function App() {
       }
     }
 
-    let classificazione = '';
+    let classificazione = "";
     if (italianRelease && italianRelease.release_dates) {
       const releaseWithCert = italianRelease.release_dates.find(
         (r) => r.certification
@@ -946,9 +925,7 @@ export default function App() {
       }
     }
     if (!classificazione) {
-      const usRelease = releases.results.find(
-        (r) => r.iso_3166_1 === 'US'
-      );
+      const usRelease = releases.results.find((r) => r.iso_3166_1 === "US");
       if (usRelease && usRelease.release_dates) {
         const releaseWithCert = usRelease.release_dates.find(
           (r) => r.certification
@@ -959,86 +936,86 @@ export default function App() {
       }
     }
     const contentRating =
-      classificazione || (movieIT.adult ? 'R (Adulti)' : 'Non disponibile');
+      classificazione || (movieIT.adult ? "R (Adulti)" : "Non disponibile");
 
     const studio =
-      (movieIT.production_companies &&
-        movieIT.production_companies[0]?.name) ||
-      (movieEN.production_companies &&
-        movieEN.production_companies[0]?.name) ||
-      '';
+      (movieIT.production_companies && movieIT.production_companies[0]?.name) ||
+      (movieEN.production_companies && movieEN.production_companies[0]?.name) ||
+      "";
 
     // Traduci la tagline se non è vuota
-    const originalTagline = movieIT.tagline || movieEN.tagline || '';
+    const originalTagline = movieIT.tagline || movieEN.tagline || "";
     let tagline = originalTagline;
     if (tagline) {
       try {
         const translatedTagline = await translateToItalian(tagline);
         tagline = translatedTagline || originalTagline; // Fallback al testo originale
       } catch (error) {
-        console.error('Errore traduzione tagline film:', error);
+        console.error("Errore traduzione tagline film:", error);
         tagline = originalTagline; // Mantiene il testo originale in caso di errore
       }
     }
-    
+
     // Traduci il riassunto se non è in italiano
-    const originalRiassunto = movieIT.overview || movieEN.overview || '';
+    const originalRiassunto = movieIT.overview || movieEN.overview || "";
     let riassunto = originalRiassunto;
     if (riassunto) {
       try {
         const translated = await translateToItalian(riassunto);
         riassunto = translated || originalRiassunto; // Fallback al testo originale
       } catch (error) {
-        console.error('Errore traduzione riassunto film:', error);
+        console.error("Errore traduzione riassunto film:", error);
         riassunto = originalRiassunto; // Mantiene il testo originale in caso di errore
       }
     }
 
-    const directors = credits.crew.filter((c) => c.job === 'Director');
-    const writers = credits.crew.filter((c) => c.department === 'Writing');
+    const directors = credits.crew.filter((c) => c.job === "Director");
+    const writers = credits.crew.filter((c) => c.department === "Writing");
     const producers = credits.crew.filter(
-      (c) => c.job === 'Producer' || c.job === 'Executive Producer'
+      (c) => c.job === "Producer" || c.job === "Executive Producer"
     );
 
-    const paesi =
-      (movieIT.production_countries &&
-        movieIT.production_countries.length > 0
+    const paesi = (
+      movieIT.production_countries && movieIT.production_countries.length > 0
         ? movieIT.production_countries
         : movieEN.production_countries || []
-      ).map((p) => p.name);
+    ).map((p) => p.name);
 
     const isItalianFilm =
-      movieIT.original_language === 'it' || paesi.includes('Italy');
+      movieIT.original_language === "it" || paesi.includes("Italy");
 
-    let generiTmdb =
-      (movieIT.genres && movieIT.genres.length > 0
+    // generi TMDB mappati attraverso imdbGenreMap
+    const rawTmdbGenres = (
+      movieIT.genres && movieIT.genres.length > 0
         ? movieIT.genres
         : movieEN.genres || []
-      ).flatMap((g) => translateGenre(g.name).split(','));
+    )
+      .map((g) => g.name)
+      .filter(Boolean);
+    let generiTmdb = mapGenresToInternal(rawTmdbGenres);
 
-    if (generiTmdb.includes('Commedia') && generiTmdb.includes('Romantico')) {
-      generiTmdb.push('Commedia Romantica');
+    if (generiTmdb.includes("Commedia") && generiTmdb.includes("Romantico")) {
+      generiTmdb.push("Commedia Romantica");
     }
-    if (isItalianFilm && !generiTmdb.includes('Italiano')) {
-      generiTmdb.push('Italiano');
+    if (isItalianFilm && !generiTmdb.includes("Italiano")) {
+      generiTmdb.push("Italiano");
     }
 
     const generiTmdbSanitized = sanitizeGenres(generiTmdb);
-    const collectionGenresSanitized = sanitizeGenres(collectionGenres);
+    // applica il mapping anche ai generi della collezione
+    const mappedCollectionGenres = mapGenresToInternal(collectionGenres);
+    const collectionGenresSanitized = sanitizeGenres(mappedCollectionGenres);
     const generiAiSanitized = sanitizeGenres([]); // popolati dopo dall'AI
 
     // generi propri del film (senza quelli della collezione)
     const movieSpecificGenres = sanitizeGenres([
-      ...new Set([
-        ...generiTmdbSanitized,
-        ...generiAiSanitized,
-      ]),
+      ...new Set([...generiTmdbSanitized, ...generiAiSanitized]),
     ]);
 
     // tutti i generi: collezione + film, univoci + ordine alfabetico
     const allGenresSorted = sanitizeGenres([
       ...new Set([...collectionGenresSanitized, ...movieSpecificGenres]),
-    ]).sort((a, b) => a.localeCompare(b, 'it'));
+    ]).sort((a, b) => a.localeCompare(b, "it"));
 
     return {
       titolo,
@@ -1074,8 +1051,8 @@ export default function App() {
   }
 
   const handleImdbData = (imdbData) => {
-    const imdbChips = sanitizeGenres(imdbData?.chips || []);
-    const imdbInternalGenres = mapImdbGenresToInternal(imdbChips);
+    const imdbChips = imdbData?.chips || [];
+    const imdbInternalGenres = mapGenresToInternal(imdbChips);
 
     // aggiorna generi condivisi della collezione con i generi interni derivati da IMDb
     if (imdbInternalGenres.length > 0) {
