@@ -140,12 +140,31 @@ function mapGenreToInternal(genreName) {
 }
 
 // Mappa un array di generi attraverso l'imdbGenreMap (1:N)
+// Filtra anche i generi in OUTPUT che sono marcati come [] nella mappa
 function mapGenresToInternal(genres = []) {
   const out = [];
+
+  // Crea un Set di generi da escludere (quelli con array vuoto)
+  const excludedGenres = new Set();
+  Object.entries(IMDB_GENRE_MAP || {}).forEach(([k, v]) => {
+    if (Array.isArray(v) && v.length === 0) {
+      excludedGenres.add(normalizeKey(k));
+    }
+  });
+
   for (const genre of genres) {
     if (!genre) continue;
-    out.push(...mapGenreToInternal(genre));
+    const mappedGenres = mapGenreToInternal(genre);
+
+    // Filtra i generi generati che sono nell'elenco di esclusione
+    for (const mappedGenre of mappedGenres) {
+      const normMapped = normalizeKey(mappedGenre);
+      if (!excludedGenres.has(normMapped)) {
+        out.push(mappedGenre);
+      }
+    }
   }
+
   return sanitizeGenres(out);
 }
 
