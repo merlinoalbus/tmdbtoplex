@@ -4,5 +4,10 @@
   "git.enableSmartCommit": true,
   "git.confirmSync": false,
   "git.postCommitCommand": "push",
-  "git.autofetch": true
+  "git.autofetch": true,
+  "gitdoc.enabled": true,
+  "gitdoc.autoCommitDelay": 1000,
+  "gitdoc.commitMessageFormat": "Auto-save: ${date}",
+  "gitdoc.autoPush": "onCommit",
+  "gitdoc.pullOnOpen": false
 }
