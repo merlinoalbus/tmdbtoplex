@@ -563,5 +563,23 @@
   "Dark tone": [],
   "Jumpscares": ["Horror", "Suspense"],
   "Philosophical elements": [],
-  "Supernatural themes": ["Soprannaturale"]
+  "Supernatural themes": ["Soprannaturale"],
+  "Costume design": [],
+  "Dark humor": ["Black Humor"],
+  "Dialogue": ["Commedia"],
+  "Horror craft": ["Horror"],
+  "Horror innovation": ["Horror"],
+  "Mortality": [
+    "Psicologico",
+    "Emotivo",
+    "Dramma",
+    "Horror",
+    "Tragedia",
+    "Suspense"
+  ],
+  "Originality": [],
+  "Over-the-top": ["Commedia", "Azione"],
+  "Surreal": [],
+  "Unpredictable": ["Suspense", "Mistero"],
+  "Comedic elements": ["Commedia"]
 }
