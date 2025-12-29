@@ -581,5 +581,9 @@
   "Over-the-top": ["Commedia", "Azione"],
   "Surreal": [],
   "Unpredictable": ["Suspense", "Mistero"],
-  "Comedic elements": ["Commedia"]
+  "Comedic elements": ["Commedia"],
+  "Great ensemble": ["Dramma"],
+  "Kinetic style": ["Azione", "Motori"],
+  "Standout performance": ["Dramma", "Commedia"],
+  "Practical effects": []
 }
